@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spottr.Domain", "Spottr.Domain\Spottr.Domain.csproj", "{A46C3E5C-F336-4851-AF5C-A5A64E3853D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spottr.Domain.UnitTests", "Spottr.Domain.UnitTests\Spottr.Domain.UnitTests.csproj", "{2A685C69-A2DC-4461-94D8-3AA292ADF504}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{A46C3E5C-F336-4851-AF5C-A5A64E3853D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A46C3E5C-F336-4851-AF5C-A5A64E3853D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A46C3E5C-F336-4851-AF5C-A5A64E3853D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A685C69-A2DC-4461-94D8-3AA292ADF504}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A685C69-A2DC-4461-94D8-3AA292ADF504}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A685C69-A2DC-4461-94D8-3AA292ADF504}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A685C69-A2DC-4461-94D8-3AA292ADF504}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
