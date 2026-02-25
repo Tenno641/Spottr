@@ -9,23 +9,20 @@ public class Session
     private readonly Guid _id;
     private readonly Guid _trainerId;
     private DateOnly _date;
-    private TimeOnly _startTime;
-    private TimeOnly _endTime;
+    private TimeRange _timeRange;
     private readonly List<Guid> _participantIds = [];
     private readonly int _maxParticipants;
 
     public Session(
         Guid trainerId,
         int maxParticipants, 
-        TimeOnly endTime, 
-        TimeOnly startTime, 
+        TimeRange timeRange,
         DateOnly date, 
         Guid? id = null)
     {
         _trainerId = trainerId;
         _maxParticipants = maxParticipants;
-        _endTime = endTime;
-        _startTime = startTime;
+        _timeRange = timeRange;
         _date = date;
         _id = id ?? Guid.CreateVersion7();
     }
@@ -50,6 +47,6 @@ public class Session
     {
         const int minimumHours = 24;
         
-        return (_date.ToDateTime(_startTime) - utcNow).Hours >= minimumHours;
+        return (_date.ToDateTime(_timeRange.StartTime) - utcNow).Hours >= minimumHours;
     }
 }
