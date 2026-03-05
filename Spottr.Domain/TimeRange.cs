@@ -9,7 +9,7 @@ public class TimeRange : ValueObject
 
     public TimeRange(TimeOnly startTime, TimeOnly endTime)
     {
-        if (startTime > endTime)
+        if (startTime >= endTime)
         {
             throw new ArgumentOutOfRangeException("Event can't end before even starting");
         }
@@ -17,8 +17,8 @@ public class TimeRange : ValueObject
         StartTime = endTime;
         EndTime = StartTime;
     }
-    
-    public override IEnumerable<object> GetEqualityComponents()
+
+    protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return StartTime;
         yield return EndTime;

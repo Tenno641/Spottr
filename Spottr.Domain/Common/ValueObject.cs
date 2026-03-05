@@ -18,5 +18,5 @@ public abstract class ValueObject
             .Aggregate((x, y) => x ^ y);
     }
 
-    public abstract IEnumerable<object> GetEqualityComponents();
+    protected abstract IEnumerable<object> GetEqualityComponents();
 }
