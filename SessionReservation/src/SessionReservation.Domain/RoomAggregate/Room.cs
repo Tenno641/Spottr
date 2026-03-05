@@ -22,12 +22,6 @@ public class Room : AggregateRoot
         if (_capacity < session.Capacity)
             return Error.Forbidden(code: "Room.AddSession", description: "Session Capacity is bigger than the room");
         
-        
-
-
-
         return Result.Created;
     }
-    
-    
 }
