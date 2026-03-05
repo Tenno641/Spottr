@@ -6,21 +6,29 @@ namespace SessionReservation.Domain.RoomAggregate;
 
 public class Room : AggregateRoot
 {
-    private List<Guid> _sessionId = [];
+    private List<Guid> _sessionIds = [];
     private Schedule _schedule = new Schedule();
+    private int _dailySessions;
 
     private int _capacity;
 
     public Room(int capacity,
+        int dailySessions,
         Guid? id = null) : base(id)
     {
         _capacity = capacity;
+        _dailySessions = dailySessions;
     }
 
     public ErrorOr<Created> ScheduleSession(Session session)
     {
         if (_capacity < session.Capacity)
-            return Error.Forbidden(code: "Room.AddSession", description: "Session Capacity is bigger than the room");
+            return RoomErrors.SessionCapacityIsLargerThanTheRoom;
+
+        if (_sessionIds.Count >= _dailySessions)
+            return RoomErrors.RoomCannotHaveMoreSessionThanTheSubscriptionAllows;
+
+        _sessionIds.Add(session.Id);
         
         return Result.Created;
     }
