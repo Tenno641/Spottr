@@ -1,4 +1,7 @@
-﻿using SessionReservation.Domain.Common;
+﻿using ErrorOr;
+using SessionReservation.Domain.Common;
+using SessionReservation.Domain.Common.Interfaces;
+using SessionReservation.Domain.ParticipantAggregate;
 
 namespace SessionReservation.Domain.SessionAggregate;
 
@@ -7,17 +10,59 @@ public class Session : AggregateRoot
     private Guid _trainerId;
     private List<Reservation> _reservations = [];
     private readonly SessionTypes _type;
+
+    public DateOnly Date { get; }
+    public TimeOnly StartTime { get; }
+    public TimeOnly EndTime { get; }
     
     public int Capacity { get; }
 
     public Session(Guid trainerId,
         int? capacity,
         SessionTypes type,
+        DateOnly date,
+        TimeOnly startTime,
+        TimeOnly endTime,
         Guid? id = null) : base(id)
     {
         _trainerId = trainerId;
         Capacity = capacity ?? GetCapacityByType();
         _type = type;
+        Date = date;
+        StartTime = startTime;
+        EndTime = endTime;
+    }
+
+    public ErrorOr<Created> ReserveSpot(Participant participant)
+    {
+        if (IsSpotAlreadyReserved(participant.Id))
+            return Error.Conflict(code: "Session.ReserveSpot", description: "Session Already Reserved");
+
+        Reservation reservation = new Reservation(participant.Id);
+        
+        _reservations.Add(reservation);
+
+        return Result.Created;
+    }
+
+    public ErrorOr<Deleted> CancelReservation(Guid participantId, IDateTimeProvider dateTimeProvider)
+    {
+        if (IsCancellationTimeClose(dateTimeProvider))
+            return Error.Forbidden(code: "Session.CancelReservation", description: "Cannot cancel reservation in the last 24 hour");
+
+        _reservations.RemoveAll(reservation => reservation.ParticipantId == participantId);
+
+        return Result.Deleted;
+    }
+
+    private bool IsCancellationTimeClose(IDateTimeProvider dateTimeProvider)
+    {
+        return (Date.ToDateTime(StartTime) - dateTimeProvider.UtcNow).TotalHours < 24;
+    }
+
+    private bool IsSpotAlreadyReserved(Guid participantId)
+    {
+        return _reservations.Any(reservation => reservation.ParticipantId == participantId);
     }
 
     private int GetCapacityByType()
