@@ -25,4 +25,15 @@ public class SessionTests
         // Assert
         Assert.Equal(ErrorType.Forbidden, result.FirstError.Type);
     }
+
+    [Fact]
+    public void ReserveSpot_ParticipantSessionsConflict_ShouldFail()
+    {
+        // Arrange
+        
+        
+        // Act
+        
+        // Assert   
+    }
 }

@@ -1,9 +1,11 @@
 ﻿using System.Diagnostics;
 using ErrorOr;
+using SessionReservation.Domain.Common;
 using SessionReservation.Domain.RoomAggregate;
 using SessionReservation.Domain.SessionAggregate;
 using SessionReservation.Domain.UnitTests.Common.Rooms;
 using SessionReservation.Domain.UnitTests.Common.Sessions;
+using SessionReservation.Domain.UnitTests.Common.ValueObjects;
 
 namespace SessionReservation.Domain.UnitTests.RoomAggregate;
 
@@ -41,5 +43,23 @@ public class RoomTests
         Assert.Equal(ErrorType.Forbidden, result2.FirstError.Type);
         
         Assert.Equal(RoomErrors.RoomCannotHaveMoreSessionThanTheSubscriptionAllows, result2.FirstError);
+    }
+
+    [Fact]
+    public void ScheduleSession_SessionsTimeConflict_ShouldFail()
+    {
+        // Arrange 
+        Room room = RoomFactory.CreateRoom();
+        Session session1 = SessionFactory.CreateSession();
+        Session session2 = SessionFactory.CreateSession();
+
+        // Act
+        ErrorOr<Created> result1 = room.ScheduleSession(session1);
+        ErrorOr<Created> result2 = room.ScheduleSession(session2);
+
+        // Assert
+        Assert.Equal(Result.Created, result1.Value);
+        Assert.Equal(ErrorType.Conflict, result2.FirstError.Type);
+        Assert.Equal(RoomErrors.RoomCannotHaveOverlappingSessions, result2.FirstError);
     }
 }

@@ -2,6 +2,7 @@
 using SessionReservation.Domain.Common;
 using SessionReservation.Domain.Common.Interfaces;
 using SessionReservation.Domain.ParticipantAggregate;
+using SessionReservation.Domain.SessionAggregate.Events;
 
 namespace SessionReservation.Domain.SessionAggregate;
 
@@ -12,8 +13,7 @@ public class Session : AggregateRoot
     private readonly SessionTypes _type;
 
     public DateOnly Date { get; }
-    public TimeOnly StartTime { get; }
-    public TimeOnly EndTime { get; }
+    public TimeRange TimeRange { get; }
     
     public int Capacity { get; }
 
@@ -21,26 +21,26 @@ public class Session : AggregateRoot
         int? capacity,
         SessionTypes type,
         DateOnly date,
-        TimeOnly startTime,
-        TimeOnly endTime,
+        TimeRange timeRange,
         Guid? id = null) : base(id)
     {
         _trainerId = trainerId;
         Capacity = capacity ?? GetCapacityByType();
         _type = type;
         Date = date;
-        StartTime = startTime;
-        EndTime = endTime;
+        TimeRange = timeRange;
     }
 
     public ErrorOr<Created> ReserveSpot(Participant participant)
     {
         if (IsSpotAlreadyReserved(participant.Id))
-            return Error.Conflict(code: "Session.ReserveSpot", description: "Session Already Reserved");
+            return SessionErrors.SessionAlreadyReserved;
 
         Reservation reservation = new Reservation(participant.Id);
         
         _reservations.Add(reservation);
+
+        _domainEvents.Add(new SessionSpotReservedEvent(this, participant.Id));
 
         return Result.Created;
     }
@@ -57,7 +57,7 @@ public class Session : AggregateRoot
 
     private bool IsCancellationTimeClose(IDateTimeProvider dateTimeProvider)
     {
-        return (Date.ToDateTime(StartTime) - dateTimeProvider.UtcNow).TotalHours < 24;
+        return (Date.ToDateTime(TimeRange.Start) - dateTimeProvider.UtcNow).TotalHours < 24;
     }
 
     private bool IsSpotAlreadyReserved(Guid participantId)
