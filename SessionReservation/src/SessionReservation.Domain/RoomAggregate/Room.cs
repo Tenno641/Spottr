@@ -28,7 +28,12 @@ public class Room : AggregateRoot
         if (_sessionIds.Count >= _dailySessions)
             return RoomErrors.RoomCannotHaveMoreSessionThanTheSubscriptionAllows;
 
+        if (_schedule.IsTimeSlotOccupied(session.Date, session.TimeRange))
+            return RoomErrors.RoomCannotHaveOverlappingSessions;
+
         _sessionIds.Add(session.Id);
+        
+        _schedule.BookTimeSlot(session.Date, session.TimeRange);
         
         return Result.Created;
     }

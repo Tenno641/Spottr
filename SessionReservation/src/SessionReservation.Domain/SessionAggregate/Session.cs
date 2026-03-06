@@ -2,6 +2,7 @@
 using SessionReservation.Domain.Common;
 using SessionReservation.Domain.Common.Interfaces;
 using SessionReservation.Domain.ParticipantAggregate;
+using SessionReservation.Domain.SessionAggregate.Events;
 
 namespace SessionReservation.Domain.SessionAggregate;
 
@@ -33,11 +34,13 @@ public class Session : AggregateRoot
     public ErrorOr<Created> ReserveSpot(Participant participant)
     {
         if (IsSpotAlreadyReserved(participant.Id))
-            return Error.Conflict(code: "Session.ReserveSpot", description: "Session Already Reserved");
+            return SessionErrors.SessionAlreadyReserved;
 
         Reservation reservation = new Reservation(participant.Id);
         
         _reservations.Add(reservation);
+
+        _domainEvents.Add(new SessionSpotReservedEvent(this, participant.Id));
 
         return Result.Created;
     }

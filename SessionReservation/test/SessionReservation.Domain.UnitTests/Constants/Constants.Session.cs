@@ -1,6 +1,4 @@
-﻿using SessionReservation.Domain.Common;
-
-namespace SessionReservation.Domain.UnitTests.Constants;
+﻿namespace SessionReservation.Domain.UnitTests.Constants;
 
 public partial class Constants
 {
@@ -9,8 +7,8 @@ public partial class Constants
         public static Guid Id => Guid.CreateVersion7();
         public static int Capacity => 20;
         public static DateOnly Date => DateOnly.MinValue;
-        public static TimeRange TimeRange => new TimeRange(
-            start: TimeOnly.MinValue.AddHours(5),
-            end: TimeOnly.MinValue.AddHours(10));
+        public static Domain.Common.TimeRange TimeRange => new Domain.Common.TimeRange(
+            start: Constants.TimeRange.Start,
+            end: Constants.TimeRange.End);
     }
 }
