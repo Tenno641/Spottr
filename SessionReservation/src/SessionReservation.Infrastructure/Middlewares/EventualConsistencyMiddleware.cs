@@ -26,7 +26,7 @@ public class EventualConsistencyMiddleware
                 {
                     while (existingDomainEvents.TryDequeue(out IDomainEvent? @event))
                     {
-                        publisher.Publish(@event);
+                        await publisher.Publish(@event);
                     }
                     await transaction.CommitAsync();
                 }
