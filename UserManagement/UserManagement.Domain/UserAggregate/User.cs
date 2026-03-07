@@ -1,11 +1,19 @@
-﻿namespace UserManagement.Domain;
+﻿using UserManagement.Domain.Common;
 
-public class User
+namespace UserManagement.Domain.UserAggregate;
+
+public class User: AggregateRoot
 {
-    public Guid Id { get; }
-    public string? Name { get; }
+    public string Name { get; }
+    public string Email { get; }
     
     public Guid AdminId { get; }
     public Guid ParticipantId { get; }
     public Guid TrainerId { get; }
+
+    public User(string name, string email, Guid? id = null) : base(id)
+    {
+        Email = email;
+        Name = name;
+    }
 }
