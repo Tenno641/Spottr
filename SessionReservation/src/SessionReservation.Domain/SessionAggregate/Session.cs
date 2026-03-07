@@ -41,6 +41,7 @@ public class Session : AggregateRoot
         _reservations.Add(reservation);
 
         _domainEvents.Add(new SessionSpotReservedEvent(this, participant.Id));
+        // TODO: Make that domain event work.
 
         return Result.Created;
     }

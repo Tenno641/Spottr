@@ -7,13 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SessionReservation.Domain\SessionReservation.Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Rooms\" />
-      <Folder Include="Sessions\" />
-      <Folder Include="Trainers\" />
+      <Folder Include="Participants\" />
     </ItemGroup>
 
 </Project>

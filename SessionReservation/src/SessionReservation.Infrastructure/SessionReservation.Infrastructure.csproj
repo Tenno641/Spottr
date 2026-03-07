@@ -7,13 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SessionReservation.Domain\SessionReservation.Domain.csproj" />
+      <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.9" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Rooms\" />
-      <Folder Include="Sessions\" />
-      <Folder Include="Trainers\" />
+      <ProjectReference Include="..\SessionReservation.Application\SessionReservation.Application.csproj" />
     </ItemGroup>
 
 </Project>
