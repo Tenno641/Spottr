@@ -24,7 +24,7 @@ public static class DependencyInjection
     {
         services.AddDbContext<UserManagementDbContext>(options =>
         {
-            options.UseSqlServer(Environment.GetEnvironmentVariable("UserManagementDatabaseConnectionString"));
+            options.UseSqlServer(Environment.GetEnvironmentVariable("DatabaseConnectionString"));
         });
 
         return services;

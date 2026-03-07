@@ -18,7 +18,7 @@ public static class DependencyInjection
     {
         services.AddDbContext<SessionReservationDbContext>(optios =>
         {
-            optios.UseSqlServer(Environment.GetEnvironmentVariable("SessionReservationDatabaseConnectionString"));
+            optios.UseSqlServer(Environment.GetEnvironmentVariable("DatabaseConnectionString"));
         });
 
         return services;
