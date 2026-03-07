@@ -9,18 +9,16 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         services
-            .AddDatabase();
+            .AddPersistence();
 
         return services;
     }
 
-    private static IServiceCollection AddDatabase(this IServiceCollection services)
+    private static IServiceCollection AddPersistence(this IServiceCollection services)
     {
         services.AddDbContext<SessionReservationDbContext>(optios =>
         {
-            optios.UseSqlServer(Environment.GetEnvironmentVariable(
-                Environment.GetEnvironmentVariable("SessionReservationDatabaseConnectionString") ??
-                throw new ArgumentException()));
+            optios.UseSqlServer(Environment.GetEnvironmentVariable("SessionReservationDatabaseConnectionString"));
         });
 
         return services;
