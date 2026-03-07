@@ -1,0 +1,35 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/GymManagement/" />
+  <Folder Name="/GymManagement/src/">
+    <Project Path="GymManagement/src/GymManagement.Domain/GymManagement.Domain.csproj" />
+  </Folder>
+  <Folder Name="/GymManagement/test/">
+    <Project Path="GymManagement/test/GymManagement.Domain.UnitTests/GymManagement.Domain.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/SessionReservation/" />
+  <Folder Name="/SessionReservation/src/">
+    <Project Path="SessionReservation/src/SessionReservation.Api/SessionReservation.Api.csproj" />
+    <Project Path="SessionReservation/src/SessionReservation.Application/SessionReservation.Application.csproj" />
+    <Project Path="SessionReservation/src/SessionReservation.Contracts/SessionReservation.Contracts.csproj" />
+    <Project Path="SessionReservation/src/SessionReservation.Domain/SessionReservation.Domain.csproj" />
+    <Project Path="SessionReservation/src/SessionReservation.Infrastructure/SessionReservation.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/SessionReservation/test/">
+    <Project Path="SessionReservation/test/SessionReservation.Domain.UnitTests/SessionReservation.Domain.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/UserManagement/" />
+  <Folder Name="/UserManagement/src/">
+    <Project Path="UserManagement/src/UserManagement.Api/UserManagement.Api.csproj" />
+    <Project Path="UserManagement/src/UserManagement.Application/UserManagement.Application.csproj" />
+    <Project Path="UserManagement/src/UserManagement.Contracts/UserManagement.Contracts.csproj" />
+    <Project Path="UserManagement/src/UserManagement.Domain/UserManagement.Domain.csproj" />
+    <Project Path="UserManagement/src/UserManagement.Infrastructure/UserManagement.Infrastructure.csproj" />
+  </Folder>
+  <Project Path="Spottr.Domain.UnitTests/Spottr.Domain.UnitTests.csproj" />
+  <Project Path="Spottr.Domain/Spottr.Domain.csproj" />
+</Solution>
