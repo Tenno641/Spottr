@@ -8,16 +8,17 @@ public class Participant : AggregateRoot
 {
     private string _name;
     private List<Guid> _sessionIds = [];
-    public Schedule Schedule => new Schedule();
+    private readonly Schedule _schedule;
 
-    public Participant(string name, Guid? id = null) : base(id)
+    public Participant(string name, Schedule? schedule = null, Guid? id = null) : base(id)
     {
         _name = name;
+        _schedule = schedule ?? new Schedule();
     }
 
     public ErrorOr<Success> AddToSchedule(Session session)
     {
-        ErrorOr<Created> result = Schedule.BookTimeSlot(session.Date, session.TimeRange);
+        ErrorOr<Created> result = _schedule.BookTimeSlot(session.Date, session.TimeRange);
 
         if (result.IsError)
         {
