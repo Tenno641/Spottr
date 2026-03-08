@@ -30,6 +30,9 @@
     <Project Path="UserManagement/src/UserManagement.Domain/UserManagement.Domain.csproj" />
     <Project Path="UserManagement/src/UserManagement.Infrastructure/UserManagement.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/UserManagement/test/">
+    <Project Path="UserManagement/test/UserManagement.Domain.UnitTests/UserManagement.Domain.UnitTests.csproj" />
+  </Folder>
   <Project Path="Spottr.Domain.UnitTests/Spottr.Domain.UnitTests.csproj" />
   <Project Path="Spottr.Domain/Spottr.Domain.csproj" />
 </Solution>

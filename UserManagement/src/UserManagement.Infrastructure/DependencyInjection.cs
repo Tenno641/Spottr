@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using UserManagement.Application.Common.Interfaces;
-using UserManagement.Infrastructure.Identity;
 using UserManagement.Infrastructure.Persistence;
 using UserManagement.Infrastructure.Persistence.Repositories;
 
@@ -14,7 +12,6 @@ public static class DependencyInjection
     {
         services
             .AddPersistence()
-            .AddIdentity()
             .AddRepositories();
 
         return services;
@@ -30,17 +27,16 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddIdentity(this IServiceCollection services)
-    {
-        services.AddIdentityCore<ApplicationUser>()
-            .AddEntityFrameworkStores<UserManagementDbContext>();
-        
-        return services;
-    }
-
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IUserRepository, UserRepository>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddServices(this IServiceCollection services)
+    {
+        services.AddSingleton<IPasswordHasherService, PasswordHasherService>();
 
         return services;
     }

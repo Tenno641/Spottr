@@ -29,11 +29,6 @@ public class SessionTests
     [Fact]
     public void ReserveSpot_ParticipantSessionsConflict_ShouldFail()
     {
-        // Arrange
         
-        
-        // Act
-        
-        // Assert   
     }
 }
