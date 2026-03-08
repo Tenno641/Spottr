@@ -8,17 +8,21 @@ namespace UserManagement.Application.Users.Commands.RegisterUser;
 public class RegisterUserCommandHandler: IRequestHandler<RegisterUserCommand, ErrorOr<Guid>>
 {
     private readonly IUserRepository _userRepository;
+    private readonly IPasswordHasherService _passwordHasher;
     
-    public RegisterUserCommandHandler(IUserRepository userRepository)
+    public RegisterUserCommandHandler(IUserRepository userRepository, IPasswordHasherService passwordHasher)
     {
         _userRepository = userRepository;
+        _passwordHasher = passwordHasher;
     }
     
     public async Task<ErrorOr<Guid>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
-        User user = new User(request.FullName, request.Email);
+        string hashedPassword = _passwordHasher.HashPassword(request.Password);
 
-        await _userRepository.CreateAsync(user, request.Password);
+        User user = new User(request.Name, request.Email, hashedPassword);
+
+        await _userRepository.CreateAsync(user);
 
         return user.Id;
     }

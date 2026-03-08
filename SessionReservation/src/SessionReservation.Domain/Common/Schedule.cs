@@ -12,6 +12,7 @@ public class Schedule: Entity
         _calendar = calendar ?? [];
     }
 
+
     public ErrorOr<Created> BookTimeSlot(DateOnly date, TimeRange timeRange)
     {
         if (!_calendar.TryGetValue(date, out List<TimeRange>? timeSlots))
