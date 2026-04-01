@@ -19,7 +19,7 @@ public class Gym : AggregateRoot
     public ErrorOr<Created> AddRoom(Room room)
     {
         if (_roomIds.Count >= _maxRooms)
-            return Error.Forbidden(code: "Gym.AddRoom", description: "Subscription cannot allow more rooms");
+            return GymErrors.CannotHaveMoreRooms;
         
         _roomIds.Add(room.Id);
 

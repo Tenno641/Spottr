@@ -21,7 +21,11 @@ public class GymTests
         ErrorOr<Created> room2Result = gym.AddRoom(room2);
 
         // Assert
+        Assert.False(room1Result.IsError);
         Assert.Equal(Result.Created, room1Result.Value);
+        
+        Assert.True(room2Result.IsError);
+        Assert.Equal(GymErrors.CannotHaveMoreRooms, room2Result.FirstError);
         Assert.Equal(ErrorType.Forbidden, room2Result.FirstError.Type);
     }
 }
