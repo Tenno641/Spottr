@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using ErrorOr;
+﻿using ErrorOr;
 using SessionReservation.Domain.Common.Interfaces;
 using SessionReservation.Domain.ParticipantAggregate;
 using SessionReservation.Domain.SessionAggregate;
@@ -44,8 +43,8 @@ public class SessionTests
         Session session2 = SessionFactory.CreateSession();
 
         // Act
-        ErrorOr<Success> result1 = participant.ReserveSpot(session1);
-        ErrorOr<Success> result2 = participant.ReserveSpot(session2);
+        ErrorOr<Success> result1 = participant.AddToSchedule(session1);
+        ErrorOr<Success> result2 = participant.AddToSchedule(session2);
         
         // Assert
         Assert.Equal(Result.Success, result1.Value);
@@ -64,8 +63,8 @@ public class SessionTests
         Session session = SessionFactory.CreateSession();
 
         // Act
-        ErrorOr<Success> result1 = participant.ReserveSpot(session);
-        ErrorOr<Success> result2 = participant.ReserveSpot(session);
+        ErrorOr<Success> result1 = participant.AddToSchedule(session);
+        ErrorOr<Success> result2 = participant.AddToSchedule(session);
         
         // Assert
         Assert.Equal(Result.Success, result1.Value);
@@ -74,5 +73,21 @@ public class SessionTests
         Assert.Equal(ErrorType.Conflict, result2.FirstError.Type);
         Assert.True(result2.IsError);
         Assert.Equal(result2.FirstError, ParticipantErrors.AlreadyReservedThisSession);
+    }
+
+    [Fact]
+    public void ReserveSpot_ParticipantDoesNotMeetMinimumAge()
+    {
+        // Arrange
+        Participant participant = ParticipantFactory.CreateParticipant(age: 15);
+        Session session = SessionFactory.CreateSession(minimumAge: 18);
+
+        // Act
+        ErrorOr<Created> sessionResult = session.ReserveSpot(participant);
+
+        // Assert
+        Assert.True(sessionResult.IsError);
+        Assert.Equal(ErrorType.Forbidden, sessionResult.FirstError.Type);
+        Assert.Equal(SessionErrors.ParticipantMustMeetTheMinimumAge, sessionResult.FirstError);
     }
 }

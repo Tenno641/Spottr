@@ -9,14 +9,16 @@ public class Participant : AggregateRoot
     private string _name;
     private List<Guid> _sessionIds = [];
     private readonly Schedule _schedule;
+    public int Age { get; }
 
-    public Participant(string name, Schedule? schedule = null, Guid? id = null) : base(id)
+    public Participant(string name, int age, Schedule? schedule = null, Guid? id = null) : base(id)
     {
         _name = name;
         _schedule = schedule ?? new Schedule();
+        Age = age;
     }
 
-    public ErrorOr<Success> ReserveSpot(Session session)
+    public ErrorOr<Success> AddToSchedule(Session session)
     {
         if (_sessionIds.Contains(session.Id))
             return ParticipantErrors.AlreadyReservedThisSession;

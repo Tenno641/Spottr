@@ -10,6 +10,7 @@ public static class SessionFactory
         int? capacity = null,
         DateOnly? date = null,
         TimeRange? timeRange = null,
+        int? minimumAge = null,
         Guid? id = null)
     {
         Session session = new Session(
@@ -18,6 +19,7 @@ public static class SessionFactory
             type: SessionTypes.Cardio,
             id: id ?? Constants.Constants.Session.Id,
             date: date ?? Constants.Constants.Session.Date,
+            minimumAge: minimumAge ?? Constants.Constants.Session.MinimumAge,
             timeRange: timeRange ?? Constants.Constants.Session.TimeRange
         );
 
