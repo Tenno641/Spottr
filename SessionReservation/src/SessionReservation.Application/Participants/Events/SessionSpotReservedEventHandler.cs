@@ -22,7 +22,7 @@ public class SessionSpotReservedEventHandler: INotificationHandler<SessionSpotRe
         if (participant is null)
             throw new ArgumentNullException();
 
-        ErrorOr<Success> result = participant.ReserveSpot(notification.Session);
+        ErrorOr<Success> result = participant.AddToSchedule(notification.Session);
 
         if (result.IsError)
         {

@@ -11,6 +11,7 @@ public class Session : AggregateRoot
     private Guid _trainerId;
     private List<Reservation> _reservations = [];
     private readonly SessionTypes _type;
+    private readonly int _minimumAge;
 
     public DateOnly Date { get; }
     public TimeRange TimeRange { get; }
@@ -22,12 +23,14 @@ public class Session : AggregateRoot
         SessionTypes type,
         DateOnly date,
         TimeRange timeRange,
+        int minimumAge = int.MaxValue,
         Guid? id = null) : base(id)
     {
         _trainerId = trainerId;
         Capacity = capacity ?? GetCapacityByType();
         _type = type;
         Date = date;
+        _minimumAge = minimumAge;
         TimeRange = timeRange;
     }
 
@@ -35,6 +38,9 @@ public class Session : AggregateRoot
     {
         if (IsSpotAlreadyReserved(participant.Id))
             return SessionErrors.SessionAlreadyReserved;
+
+        if (participant.Age < _minimumAge)
+            return SessionErrors.ParticipantMustMeetTheMinimumAge;
 
         Reservation reservation = new Reservation(participant.Id);
         
