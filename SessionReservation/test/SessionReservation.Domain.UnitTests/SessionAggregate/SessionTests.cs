@@ -39,12 +39,13 @@ public class SessionTests
     public void ReserveSpot_ParticipantSessionsConflict_ShouldFail()
     {
         // Arrange
-        Session session = SessionFactory.CreateSession();
         Participant participant = ParticipantFactory.CreateParticipant();
+        Session session1 = SessionFactory.CreateSession();
+        Session session2 = SessionFactory.CreateSession();
 
         // Act
-        ErrorOr<Success> result1 = participant.AddToSchedule(session);
-        ErrorOr<Success> result2 = participant.AddToSchedule(session);
+        ErrorOr<Success> result1 = participant.ReserveSpot(session1);
+        ErrorOr<Success> result2 = participant.ReserveSpot(session2);
         
         // Assert
         Assert.Equal(Result.Success, result1.Value);
@@ -53,5 +54,25 @@ public class SessionTests
         Assert.Equal(ErrorType.Conflict, result2.FirstError.Type);
         Assert.True(result2.IsError);
         Assert.Equal(result2.FirstError, ParticipantErrors.ParticipantHasOverlappingSessions);
+    }
+
+    [Fact]
+    public void ReserveSpot_ParticipantAlreadyReservedThisSession_ShouldFail()
+    {
+        // Arrange
+        Participant participant = ParticipantFactory.CreateParticipant();
+        Session session = SessionFactory.CreateSession();
+
+        // Act
+        ErrorOr<Success> result1 = participant.ReserveSpot(session);
+        ErrorOr<Success> result2 = participant.ReserveSpot(session);
+        
+        // Assert
+        Assert.Equal(Result.Success, result1.Value);
+        Assert.False(result1.IsError);
+        
+        Assert.Equal(ErrorType.Conflict, result2.FirstError.Type);
+        Assert.True(result2.IsError);
+        Assert.Equal(result2.FirstError, ParticipantErrors.AlreadyReservedThisSession);
     }
 }
