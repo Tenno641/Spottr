@@ -16,8 +16,11 @@ public class Participant : AggregateRoot
         _schedule = schedule ?? new Schedule();
     }
 
-    public ErrorOr<Success> AddToSchedule(Session session)
+    public ErrorOr<Success> ReserveSpot(Session session)
     {
+        if (_sessionIds.Contains(session.Id))
+            return ParticipantErrors.AlreadyReservedThisSession;
+                
         ErrorOr<Created> result = _schedule.BookTimeSlot(session.Date, session.TimeRange);
 
         if (result.IsError)
