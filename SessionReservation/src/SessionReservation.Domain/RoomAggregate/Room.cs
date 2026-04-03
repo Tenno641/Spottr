@@ -1,5 +1,6 @@
 ﻿using ErrorOr;
 using SessionReservation.Domain.Common;
+using SessionReservation.Domain.Equipments;
 using SessionReservation.Domain.SessionAggregate;
 
 namespace SessionReservation.Domain.RoomAggregate;
@@ -8,16 +9,20 @@ public class Room : AggregateRoot
 {
     private List<Guid> _sessionIds = [];
     private Schedule _schedule = new Schedule();
-    private int _dailySessions;
+    private int _maxDailySessions;
 
     private int _capacity;
+    
+    public Guid GymId { get; }
 
     public Room(int capacity,
-        int dailySessions,
+        int maxDailySessions,
+        Guid gymId,
         Guid? id = null) : base(id)
     {
         _capacity = capacity;
-        _dailySessions = dailySessions;
+        _maxDailySessions = maxDailySessions;
+        GymId = gymId;
     }
 
     public ErrorOr<Created> ScheduleSession(Session session)
@@ -25,15 +30,24 @@ public class Room : AggregateRoot
         if (_capacity < session.Capacity)
             return RoomErrors.SessionCapacityIsLargerThanTheRoom;
 
-        if (_sessionIds.Count >= _dailySessions)
+        if (_sessionIds.Count >= _maxDailySessions)
             return RoomErrors.RoomCannotHaveMoreSessionThanTheSubscriptionAllows;
 
-        if (_schedule.IsTimeSlotOccupied(session.Date, session.TimeRange))
+        bool isScheduleOccupied = _schedule.IsTimeSlotOccupied(session.Date, session.TimeRange);
+        if (isScheduleOccupied)
             return RoomErrors.RoomCannotHaveOverlappingSessions;
 
+        if (session.Equipments.Any(equipment => equipment.Schedule.IsTimeSlotOccupied(session.Date, session.TimeRange)))
+            return RoomErrors.EquipmentsWillNotBeAvailableForThisSession;
+
+        _schedule.BookTimeSlot(session.Date, session.TimeRange);
+        
         _sessionIds.Add(session.Id);
         
-        _schedule.BookTimeSlot(session.Date, session.TimeRange);
+        foreach (Equipment equipment in session.Equipments)
+        {
+            equipment.Schedule.BookTimeSlot(session.Date, session.TimeRange);
+        }
         
         return Result.Created;
     }

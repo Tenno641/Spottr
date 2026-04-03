@@ -8,8 +8,8 @@ public static class TimeRangeFactory
         TimeOnly? start = null,
         TimeOnly? end = null)
     {
-        TimeRange timeRange = new TimeRange(start: start ?? Constants.Constants.TimeRange.Start,
-            end: end ?? Constants.Constants.TimeRange.End);
+        TimeRange timeRange = new TimeRange(start: start ?? Constants.Constants.TimeRanges.Start,
+            end: end ?? Constants.Constants.TimeRanges.End);
 
         return timeRange;
     }

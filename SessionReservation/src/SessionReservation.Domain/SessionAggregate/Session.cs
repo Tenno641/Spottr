@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
 using SessionReservation.Domain.Common;
 using SessionReservation.Domain.Common.Interfaces;
+using SessionReservation.Domain.Equipments;
 using SessionReservation.Domain.ParticipantAggregate;
 using SessionReservation.Domain.SessionAggregate.Events;
 
@@ -8,6 +9,7 @@ namespace SessionReservation.Domain.SessionAggregate;
 
 public class Session : AggregateRoot
 {
+    private Guid _roomId;
     private Guid _trainerId;
     private List<Reservation> _reservations = [];
     private readonly SessionTypes _type;
@@ -15,22 +17,27 @@ public class Session : AggregateRoot
 
     public DateOnly Date { get; }
     public TimeRange TimeRange { get; }
+    public List<Equipment> Equipments { get; }
     
     public int Capacity { get; }
 
     public Session(Guid trainerId,
+        Guid roomId,
         int? capacity,
         SessionTypes type,
         DateOnly date,
         TimeRange timeRange,
+        List<Equipment> equipments,
         int minimumAge = int.MaxValue,
         Guid? id = null) : base(id)
     {
         _trainerId = trainerId;
+        _roomId = roomId;
         Capacity = capacity ?? GetCapacityByType();
         _type = type;
         Date = date;
         _minimumAge = minimumAge;
+        Equipments = equipments;
         TimeRange = timeRange;
     }
 

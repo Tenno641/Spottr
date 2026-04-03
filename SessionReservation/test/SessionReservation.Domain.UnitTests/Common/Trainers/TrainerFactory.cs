@@ -7,7 +7,7 @@ public static class TrainerFactory
     public static Trainer Create()
     {
         Trainer trainer = new Trainer(
-            id: Constants.Constants.Trainer.Id);
+            id: Constants.Constants.Trainers.Id);
 
         return trainer;
     }

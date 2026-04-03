@@ -1,8 +1,9 @@
-﻿using System.Diagnostics;
-using ErrorOr;
+﻿using ErrorOr;
 using SessionReservation.Domain.Common;
+using SessionReservation.Domain.Equipments;
 using SessionReservation.Domain.RoomAggregate;
 using SessionReservation.Domain.SessionAggregate;
+using SessionReservation.Domain.UnitTests.Common.Equipments;
 using SessionReservation.Domain.UnitTests.Common.Rooms;
 using SessionReservation.Domain.UnitTests.Common.Sessions;
 using SessionReservation.Domain.UnitTests.Common.ValueObjects;
@@ -15,7 +16,7 @@ public class RoomTests
     public void ScheduleSession_RoomCapacitySmallerThanSession_ShouldReturnError()
     {
         // Arrange 
-        Room room = RoomFactory.CreateRoom(capacity: 10);
+        Room room = RoomFactory.Create(capacity: 10);
         Session session = SessionFactory.CreateSession(capacity: 15);
         
         // Act
@@ -29,7 +30,7 @@ public class RoomTests
     public void ScheduleSession_CannotHaveMoreSessionThanTheSubscriptionAllows()
     {
         // Arrange
-        Room room = RoomFactory.CreateRoom(dailySessions: 1);
+        Room room = RoomFactory.Create(dailySessions: 1);
         Session session1 = SessionFactory.CreateSession();
         Session session2 = SessionFactory.CreateSession();
 
@@ -49,7 +50,7 @@ public class RoomTests
     public void ScheduleSession_SessionsTimeConflict_ShouldFail()
     {
         // Arrange 
-        Room room = RoomFactory.CreateRoom();
+        Room room = RoomFactory.Create();
         Session session1 = SessionFactory.CreateSession();
         Session session2 = SessionFactory.CreateSession();
 
@@ -61,5 +62,34 @@ public class RoomTests
         Assert.Equal(Result.Created, result1.Value);
         Assert.Equal(ErrorType.Conflict, result2.FirstError.Type);
         Assert.Equal(RoomErrors.RoomCannotHaveOverlappingSessions, result2.FirstError);
+    }
+
+    [Fact]
+    public void ScheduleSession_RequiredEquipmentsWillBeUsed_ShouldFail()
+    {
+        // Arrange
+        // Equipments
+        Equipment equipment1 = EquipmentFactory.Create(id: Guid.CreateVersion7(), name: "Equipment-Name-1");
+        Equipment equipment2 = EquipmentFactory.Create(id: Guid.CreateVersion7(), name: "Equipment-Name-2");
+        Equipment equipment3 = EquipmentFactory.Create(id: Guid.CreateVersion7(), name: "Equipment-Name-3");
+        List<Equipment> requiredEquipments = [equipment1, equipment2, equipment3];
+
+        Guid gymId = Guid.CreateVersion7();
+        Room room1 = RoomFactory.Create(gymId: gymId);
+        Room room2 = RoomFactory.Create(gymId: gymId);
+        Session session1 = SessionFactory.CreateSession(equipments: requiredEquipments);
+        Session session2 = SessionFactory.CreateSession(equipments: requiredEquipments);
+        
+        // Act
+        ErrorOr<Created> session1Result = room1.ScheduleSession(session1);
+        ErrorOr<Created> session2Result = room2.ScheduleSession(session2);
+        
+        // Assert
+        Assert.False(session1Result.IsError);
+        Assert.Equal(Result.Created, session1Result.Value);
+        
+        Assert.True(session2Result.IsError);
+        Assert.Equal(ErrorType.Conflict, session2Result.FirstError.Type);
+        Assert.Equal(RoomErrors.EquipmentsWillNotBeAvailableForThisSession, session2Result.FirstError);
     }
 }
