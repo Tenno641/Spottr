@@ -10,9 +10,9 @@ public static class ParticipantFactory
         Guid? id = null)
     {
         Participant participant = new Participant(
-            name: name ?? Constants.Constants.Participant.Name,
-            age: age ?? Constants.Constants.Participant.Age,
-            id: id ?? Constants.Constants.Participant.Id);
+            name: name ?? Constants.Constants.Participants.Name,
+            age: age ?? Constants.Constants.Participants.Age,
+            id: id ?? Constants.Constants.Participants.Id);
 
         return participant;
     }

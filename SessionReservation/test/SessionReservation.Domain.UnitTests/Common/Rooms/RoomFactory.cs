@@ -4,15 +4,17 @@ namespace SessionReservation.Domain.UnitTests.Common.Rooms;
 
 public static class RoomFactory
 {
-    public static Room CreateRoom(
+    public static Room Create(
+        Guid? gymId = null,
         int? capacity = null,
         int? dailySessions = null,
         Guid? id = null)
     {
         Room room = new Room(
-            capacity: capacity ?? Constants.Constants.Room.Capacity,
-            dailySessions: dailySessions ?? Constants.Constants.Room.DailySessions,
-            id: id ?? Constants.Constants.Room.Id);
+            gymId: Constants.Constants.Rooms.GymId,
+            capacity: capacity ?? Constants.Constants.Rooms.Capacity,
+            maxDailySessions: dailySessions ?? Constants.Constants.Rooms.DailySessions,
+            id: id ?? Constants.Constants.Rooms.Id);
 
         return room;
     }

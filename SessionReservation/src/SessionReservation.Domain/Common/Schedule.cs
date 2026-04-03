@@ -13,19 +13,15 @@ public class Schedule: Entity
     }
 
 
-    public ErrorOr<Created> BookTimeSlot(DateOnly date, TimeRange timeRange)
+    public void BookTimeSlot(DateOnly date, TimeRange timeRange)
     {
         if (!_calendar.TryGetValue(date, out List<TimeRange>? timeSlots))
         {
-            _calendar[date] = [timeRange];
-            return Result.Created;
+            timeSlots = [];
+            _calendar[date] = timeSlots;
         }
         
-        if (IsTimeSlotOccupied(date, timeRange))
-            return Error.Conflict();
-        
         timeSlots.Add(timeRange);
-        return Result.Created;
     }
 
     public ErrorOr<Deleted> RemoveBooking(DateOnly date, TimeRange timeRange)

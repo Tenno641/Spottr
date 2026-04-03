@@ -20,9 +20,10 @@ public class UserRepository: IUserRepository
         return user;
     }
     
-    public void UpdateUser(User user)
+    public async Task UpdateUserAsync(User user)
     {
         _dbContext.Users.Update(user);
+        await _dbContext.SaveChangesAsync();
     }
     
     public async Task CreateAsync(User user)

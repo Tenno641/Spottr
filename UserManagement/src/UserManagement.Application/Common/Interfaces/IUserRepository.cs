@@ -5,6 +5,6 @@ namespace UserManagement.Application.Common.Interfaces;
 public interface IUserRepository
 {
     Task<User?> GetByIdAsync(Guid userId);
-    void UpdateUser(User user);
+    Task UpdateUserAsync(User user);
     Task CreateAsync(User user);
 }

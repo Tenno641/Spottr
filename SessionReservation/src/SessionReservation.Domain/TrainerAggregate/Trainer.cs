@@ -19,14 +19,11 @@ public class Trainer : AggregateRoot
         if (_sessionId.Contains(session.Id))
             return TrainerErrors.AlreadyTeachesThisSession;
 
-        ErrorOr<Created> result = _schedule.BookTimeSlot(session.Date, session.TimeRange);
-
-        if (result.IsError)
-        {
-            return result.FirstError.Type == ErrorType.Conflict
-                ? TrainerErrors.CannotTeachOverlappingSessions
-                : result.Errors;
-        }
+        bool isScheduleOccupied = _schedule.IsTimeSlotOccupied(session.Date, session.TimeRange);
+        if (isScheduleOccupied)
+            return TrainerErrors.CannotTeachOverlappingSessions;
+        
+        _schedule.BookTimeSlot(session.Date, session.TimeRange);
 
         _sessionId.Add(session.Id);
         

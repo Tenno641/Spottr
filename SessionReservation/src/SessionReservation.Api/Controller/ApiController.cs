@@ -2,7 +2,7 @@
 using ErrorOr;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace UserManagement.Api.Controllers;
+namespace SessionReservation.Api.Controller;
 
 [Route("[controller]")]
 [ApiController]

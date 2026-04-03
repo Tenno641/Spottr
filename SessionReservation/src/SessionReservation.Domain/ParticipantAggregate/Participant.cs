@@ -22,15 +22,13 @@ public class Participant : AggregateRoot
     {
         if (_sessionIds.Contains(session.Id))
             return ParticipantErrors.AlreadyReservedThisSession;
-                
-        ErrorOr<Created> result = _schedule.BookTimeSlot(session.Date, session.TimeRange);
 
-        if (result.IsError)
-        {
-            return result.FirstError.Type == ErrorType.Conflict
-                ? ParticipantErrors.ParticipantHasOverlappingSessions
-                : result.Errors;
-        }
+        bool isScheduleOccupied = _schedule.IsTimeSlotOccupied(session.Date, session.TimeRange);
+        
+        if (isScheduleOccupied)
+            return ParticipantErrors.ParticipantHasOverlappingSessions;
+        
+        _schedule.BookTimeSlot(session.Date, session.TimeRange);
 
         _sessionIds.Add(session.Id);
 

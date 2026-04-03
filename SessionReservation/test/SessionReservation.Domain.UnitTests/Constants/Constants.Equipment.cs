@@ -2,8 +2,9 @@
 
 public partial class Constants
 {
-    public static class Trainers
+    public static class Equipments
     {
         public static Guid Id => Guid.CreateVersion7();
+        public static string Name => "Equipment-Name";    
     }
 }

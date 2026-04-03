@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\SessionReservation.Application\SessionReservation.Application.csproj" />
+      <ProjectReference Include="..\SessionReservation.Contracts\SessionReservation.Contracts.csproj" />
       <ProjectReference Include="..\SessionReservation.Infrastructure\SessionReservation.Infrastructure.csproj" />
     </ItemGroup>
 

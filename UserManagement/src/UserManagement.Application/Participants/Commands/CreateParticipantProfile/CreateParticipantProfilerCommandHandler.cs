@@ -23,7 +23,7 @@ public class CreateParticipantProfilerCommandHandler: IRequestHandler<CreatePart
 
         ErrorOr<Guid> result = user.CreateParticipantProfile();
 
-        _userRepository.UpdateUser(user);
+        await _userRepository.UpdateUserAsync(user);
 
         return result;
     }
