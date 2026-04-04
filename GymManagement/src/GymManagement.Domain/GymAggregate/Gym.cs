@@ -9,12 +9,16 @@ public class Gym : AggregateRoot
     private List<Guid> _roomIds = [];
     private string _name;
     private int _maxRooms;
+    
+    public Guid SubscriptionId { get; }
 
     public Gym(
+        Guid subscriptionId,
         int maxRooms,
         string name,
         Guid? id = null) : base(id)
     {
+        SubscriptionId = subscriptionId;
         _name = name;
         _maxRooms = maxRooms;
     }
