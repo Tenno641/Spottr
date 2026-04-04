@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using UserManagement.Application.Common.Interfaces;
+using UserManagement.Domain.Common.Interfaces;
 using UserManagement.Infrastructure.Persistence;
 using UserManagement.Infrastructure.Persistence.Repositories;
+using UserManagement.Infrastructure.Persistence.Services;
 
 namespace UserManagement.Infrastructure;
 

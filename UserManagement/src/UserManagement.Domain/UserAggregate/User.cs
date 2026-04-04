@@ -1,5 +1,6 @@
 ﻿using ErrorOr;
 using UserManagement.Domain.Common;
+using UserManagement.Domain.Common.Interfaces;
 
 namespace UserManagement.Domain.UserAggregate;
 
@@ -19,6 +20,11 @@ public class User: AggregateRoot
         Email = email;
         _hashedPassword = hashedPassword;
         Name = name;
+    }
+
+    public bool VerifyPassword(string password, IPasswordHasherService passwordHasherService)
+    {
+        return passwordHasherService.VerifyPassword(password, _hashedPassword);
     }
 
     public ErrorOr<Guid> CreateAdminProfile()
