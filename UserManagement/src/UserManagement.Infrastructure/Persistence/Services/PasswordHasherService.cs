@@ -1,6 +1,6 @@
-﻿using UserManagement.Application.Common.Interfaces;
+﻿using UserManagement.Domain.Common.Interfaces;
 
-namespace UserManagement.Infrastructure.Persistence.Repositories;
+namespace UserManagement.Infrastructure.Persistence.Services;
 
 public class PasswordHasherService : IPasswordHasherService
 {
