@@ -8,10 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Gyms\Queries\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\GymManagement.Domain\GymManagement.Domain.csproj" />
     </ItemGroup>
 

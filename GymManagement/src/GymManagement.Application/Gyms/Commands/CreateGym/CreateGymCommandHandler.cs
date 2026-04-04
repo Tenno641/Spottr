@@ -4,7 +4,7 @@ using GymManagement.Domain.GymAggregate;
 using GymManagement.Domain.SubscriptionAggregate;
 using MediatR;
 
-namespace GymManagement.Application.Gyms.Commands;
+namespace GymManagement.Application.Gyms.Commands.CreateGym;
 
 public class CreateGymCommandHandler: IRequestHandler<CreateGymCommand, ErrorOr<Guid>>
 {

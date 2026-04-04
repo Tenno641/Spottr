@@ -3,6 +3,7 @@ using GymManagement.Contracts.Gyms;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ErrorOr;
+using GymManagement.Application.Gyms.Commands.CreateGym;
 
 namespace GymManagement.Api.Controllers;
 

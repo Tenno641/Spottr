@@ -5,4 +5,5 @@ namespace GymManagement.Application.Common.Interface;
 public interface IGymsRepository
 {
     Task AddGymAsync(Gym gym);
+    Task<List<Gym>> ListGymsBySubscriptionIdAsync(Guid subscriptionId);
 }
