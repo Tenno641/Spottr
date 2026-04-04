@@ -6,6 +6,9 @@
   </Configurations>
   <Folder Name="/GymManagement/" />
   <Folder Name="/GymManagement/src/">
+    <Project Path="GymManagement/src/GymManagement.Api/GymManagement.Api.csproj" />
+    <Project Path="GymManagement/src/GymManagement.Application/GymManagement.Application.csproj" />
+    <Project Path="GymManagement/src/GymManagement.Contracts/GymManagement.Contracts.csproj" />
     <Project Path="GymManagement/src/GymManagement.Domain/GymManagement.Domain.csproj" />
   </Folder>
   <Folder Name="/GymManagement/test/">
