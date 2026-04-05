@@ -25,6 +25,7 @@ public class CreateGymCommandHandler: IRequestHandler<CreateGymCommand, ErrorOr<
             return Error.NotFound();
 
         Gym gym = new Gym(
+            subscriptionId: request.SubscriptionId,
             maxRooms: request.MaxRooms,
             name: request.Name);
         

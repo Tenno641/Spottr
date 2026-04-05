@@ -7,8 +7,9 @@ namespace GymManagement.Domain.GymAggregate;
 public class Gym : AggregateRoot
 {
     private List<Guid> _roomIds = [];
-    private string _name;
+    public string Name { get; }
     private int _maxRooms;
+    private List<Guid> _trainersIds = [];
     
     public Guid SubscriptionId { get; }
 
@@ -19,7 +20,7 @@ public class Gym : AggregateRoot
         Guid? id = null) : base(id)
     {
         SubscriptionId = subscriptionId;
-        _name = name;
+        Name = name;
         _maxRooms = maxRooms;
     }
 
@@ -31,5 +32,14 @@ public class Gym : AggregateRoot
         _roomIds.Add(room.Id);
 
         return Result.Created;
+    }
+
+    public ErrorOr<Success> AddTrainer(Guid trainerId)
+    {
+        if (_trainersIds.Contains(trainerId))
+            return Error.Conflict(description: "Trainer already added to the gym");
+        
+        _trainersIds.Add(trainerId);
+        return Result.Success;
     }
 }
