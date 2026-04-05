@@ -37,6 +37,4 @@
   <Folder Name="/UserManagement/test/">
     <Project Path="UserManagement/test/UserManagement.Domain.UnitTests/UserManagement.Domain.UnitTests.csproj" />
   </Folder>
-  <Project Path="Spottr.Domain.UnitTests/Spottr.Domain.UnitTests.csproj" />
-  <Project Path="Spottr.Domain/Spottr.Domain.csproj" />
 </Solution>

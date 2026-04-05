@@ -2,7 +2,7 @@
 
 public abstract class AggregateRoot : Entity
 {
-    protected List<IDomainEvent> _domainEvents;
+    protected List<IDomainEvent> _domainEvents = [];
     
     protected AggregateRoot(Guid? id = null): base(id) { }
 

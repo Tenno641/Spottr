@@ -20,11 +20,7 @@ public class GetGymQueryHandler: IRequestHandler<GetGymQuery, ErrorOr<Gym>>
     
     public async Task<ErrorOr<Gym>> Handle(GetGymQuery request, CancellationToken cancellationToken)
     {
-        Subscription? subscription = await _subscriptionsRepository.GetSubscriptionByIdAsync(request.SubscriptionId);
-        if (subscription is null)
-            return Error.NotFound(description: "Subscription is not found");
-        
-        Gym? gym = await _gymsRepository.GetGymById(request.GymId);
+        Gym? gym = await _gymsRepository.GetGymByIdAsync(request.GymId);
         if (gym is null)
             return Error.NotFound(description: "Gym is not found");
 

@@ -19,7 +19,7 @@ public class GymsRepository: IGymsRepository
         await _dbContext.SaveChangesAsync();
     }
     
-    public async Task<Gym?> GetGymById(Guid id)
+    public async Task<Gym?> GetGymByIdAsync(Guid id)
     {
         return await _dbContext.Gyms.FirstOrDefaultAsync(gym => gym.Id == id);
     }
@@ -32,7 +32,7 @@ public class GymsRepository: IGymsRepository
             .ToListAsync();
     }
     
-    public async Task UpdateGym(Gym gym)
+    public async Task UpdateGymAsync(Gym gym)
     {
         _dbContext.Gyms.Update(gym);
         await _dbContext.SaveChangesAsync();
