@@ -19,11 +19,6 @@ public class ListGymsQueryHandler: IRequestHandler<ListGymsQuery, ErrorOr<List<G
     
     public async Task<ErrorOr<List<Gym>>> Handle(ListGymsQuery request, CancellationToken cancellationToken)
     {
-        Subscription? subscription = await _subscriptionsRepository.GetSubscriptionByIdAsync(request.SubscriptionId);
-
-        if (subscription is null)
-            return Error.NotFound();
-
         List<Gym> gyms = await _gymsRepository.ListGymsBySubscriptionIdAsync(request.SubscriptionId);
 
         return gyms;
