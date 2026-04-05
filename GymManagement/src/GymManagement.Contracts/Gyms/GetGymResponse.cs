@@ -1,3 +1,3 @@
 ﻿namespace GymManagement.Contracts.Gyms;
 
-public class GetGymResponse(Guid Id, string Name);
+public record GetGymResponse(Guid Id, string Name);
