@@ -9,7 +9,6 @@ builder.Services
 
 var app = builder.Build();
 
-RouteGroupBuilder participants = app.MapGroup("api/participants");
-
+app.MapControllers();
 
 app.Run();
