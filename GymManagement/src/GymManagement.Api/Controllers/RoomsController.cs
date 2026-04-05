@@ -1,4 +1,8 @@
-﻿using MediatR;
+﻿using ErrorOr;
+using GymManagement.Application.Rooms.CreateRoom;
+using GymManagement.Application.Rooms.DeleteRoom;
+using GymManagement.Contracts.Rooms;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymManagement.Api.Controllers;
@@ -14,11 +18,26 @@ public class RoomsController: ApiController
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateRoom()
+    public async Task<IActionResult> CreateRoom(Guid gymId, CreateRoomRequest request)
     {
-        
+        CreateRoomCommand command = new CreateRoomCommand(gymId, request.MaxDailySessions, request.Capacity);
+
+        ErrorOr<Guid> result = await _mediator.Send(command);
+
+        return result.IsError
+            ? Problem(result.Errors)
+            : Ok();
     }
-    
+
     [HttpDelete("{roomId:guid}")]
-    public async Task<IActionResult> DeleteRoom()
+    public async Task<IActionResult> DeleteRoom(Guid gymIm, Guid roomId)
+    {
+        DeleteRoomCommand command = new DeleteRoomCommand(gymIm, roomId);
+
+        ErrorOr<Deleted> result = await _mediator.Send(command);
+
+        return result.IsError
+            ? Problem(result.Errors)
+            : NoContent();
+    }
 }

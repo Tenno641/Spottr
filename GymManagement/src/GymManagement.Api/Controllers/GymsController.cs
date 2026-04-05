@@ -29,7 +29,7 @@ public class GymsController: ApiController
 
         return result.IsError
             ? Problem(result.Errors)
-            : Ok(result.Value);
+            : CreatedAtAction(nameof(GetGym), new { subscriptionId = subscriptionId, gymId = result.Value }, result.Value);
     }
 
     [HttpGet]

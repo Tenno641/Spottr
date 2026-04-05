@@ -17,7 +17,7 @@ public class AddTrainerCommandHandler: IRequestHandler<AddTrainerCommand, ErrorO
     
     public async Task<ErrorOr<Success>> Handle(AddTrainerCommand request, CancellationToken cancellationToken)
     {
-        Gym? gym = await _gymsRepository.GetGymById(request.GymId);
+        Gym? gym = await _gymsRepository.GetGymByIdAsync(request.GymId);
         
         if (gym is null)
             return Error.NotFound(description: "Gym is not found");

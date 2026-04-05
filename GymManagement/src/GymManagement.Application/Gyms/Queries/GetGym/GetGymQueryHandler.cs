@@ -20,7 +20,7 @@ public class GetGymQueryHandler: IRequestHandler<GetGymQuery, ErrorOr<Gym>>
     
     public async Task<ErrorOr<Gym>> Handle(GetGymQuery request, CancellationToken cancellationToken)
     {
-        Gym? gym = await _gymsRepository.GetGymById(request.GymId);
+        Gym? gym = await _gymsRepository.GetGymByIdAsync(request.GymId);
         if (gym is null)
             return Error.NotFound(description: "Gym is not found");
 

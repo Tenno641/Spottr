@@ -47,4 +47,14 @@ public class Gym : AggregateRoot
         _trainersIds.Add(trainerId);
         return Result.Success;
     }
+
+    public ErrorOr<Deleted> RemoveRoom(Guid roomId)
+    {
+        bool isDeleted = _roomIds.Remove(roomId);
+        
+        if (!isDeleted) return Error.NotFound(description: "Room is not found");
+
+        _domainEvents.Add(new RoomDeletedEvent()); // TODO: Remember this
+        return Result.Deleted;
+    }
 }
