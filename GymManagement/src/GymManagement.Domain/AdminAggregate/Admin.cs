@@ -9,16 +9,14 @@ public class Admin : AggregateRoot
 {
     private Guid? _subscriptionId;
 
-    public Admin(Guid subscriptionId,
-        Guid? id = null) : base(id)
+    public Admin(Guid? id = null) : base(id)
     {
-        _subscriptionId = subscriptionId;
     }
 
     public ErrorOr<Success> SetSubscription(Subscription subscription)
     {
         if (_subscriptionId is not null)
-            return Error.Conflict("Subscription already exists");
+            return AdminErrors.SubscriptionAlreadyExists;
         
         _subscriptionId = subscription.Id;
         
