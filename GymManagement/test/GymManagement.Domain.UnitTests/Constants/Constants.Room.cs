@@ -1,6 +1,6 @@
 ﻿namespace GymManagement.Domain.UnitTests.Constants;
 
-public partial class Constants
+public static partial class Constants
 {
     public static class Room
     {
