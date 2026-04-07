@@ -8,9 +8,14 @@ public class Trainer : AggregateRoot
 {
     private List<Guid> _sessionId = [];
     private Schedule _schedule;
+    private Guid _gymId;
 
-    public Trainer(Schedule? schedule = null, Guid? id = null) : base(id)
+    public Trainer(
+        Guid gymId, 
+        Schedule? schedule = null, 
+        Guid? id = null) : base(id)
     {
+        _gymId = gymId;
         _schedule = schedule ?? new Schedule();
     }
 
