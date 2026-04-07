@@ -21,7 +21,6 @@ public class Admin : AggregateRoot
         _subscriptionId = subscription.Id;
         
         _domainEvents.Add(new SubscriptionSetEvent(subscription));
-        // TODO: Listen to event and add subscription to the database
 
         return Result.Success;
     }

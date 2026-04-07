@@ -1,6 +1,6 @@
 ﻿using GymManagement.Domain.Common;
-using MediatR;
+using GymManagement.Domain.Rooms;
 
 namespace GymManagement.Domain.GymAggregate.Events;
 
-public record RoomAddedEvent: IDomainEvent;
+public record RoomAddedEvent(Room Room): IDomainEvent;

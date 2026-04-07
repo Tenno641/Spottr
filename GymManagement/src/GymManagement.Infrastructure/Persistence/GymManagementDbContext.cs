@@ -2,6 +2,8 @@
 using GymManagement.Domain.Common;
 using GymManagement.Domain.GymAggregate;
 using GymManagement.Domain.SubscriptionAggregate;
+using GymManagement.Infrastructure.IntegrationEvents;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +26,15 @@ public class GymManagementDbContext: DbContext
     public DbSet<Gym> Gyms { get; set; }
     public DbSet<Subscription> Subscriptions { get; set; }
     public DbSet<Admin> Admins { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        
+        modelBuilder.AddInboxStateEntity();
+        modelBuilder.AddOutboxMessageEntity();
+        modelBuilder.AddOutboxStateEntity();
+    }
 
     public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {

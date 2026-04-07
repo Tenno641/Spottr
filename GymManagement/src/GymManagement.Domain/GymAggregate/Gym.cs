@@ -34,7 +34,7 @@ public class Gym : AggregateRoot
             return GymErrors.CannotHaveMoreRooms;
         
         _roomIds.Add(room.Id);
-        _domainEvents.Add(new RoomAddedEvent()); // TODO REMEMBER THIS!
+        _domainEvents.Add(new RoomAddedEvent(room));
 
         return Result.Created;
     }
@@ -45,6 +45,7 @@ public class Gym : AggregateRoot
             return Error.Conflict(description: "Trainer already added to the gym");
         
         _trainersIds.Add(trainerId);
+        // TODO: raise domain event to trigger an integration event to trigger a domain event in session reservation context to save trainer in database
         return Result.Success;
     }
 
@@ -54,7 +55,7 @@ public class Gym : AggregateRoot
         
         if (!isDeleted) return Error.NotFound(description: "Room is not found");
 
-        _domainEvents.Add(new RoomDeletedEvent()); // TODO: Remember this
+        _domainEvents.Add(new RoomDeletedEvent(roomId));
         return Result.Deleted;
     }
 }

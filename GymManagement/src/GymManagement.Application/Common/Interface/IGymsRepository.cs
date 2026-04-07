@@ -8,4 +8,5 @@ public interface IGymsRepository
     Task<Gym?> GetGymByIdAsync(Guid id);
     Task<List<Gym>> ListGymsBySubscriptionIdAsync(Guid subscriptionId);
     Task UpdateGymAsync(Gym gym);
+    Task DeleteGymAsync(Gym gym);
 }

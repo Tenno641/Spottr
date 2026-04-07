@@ -4,8 +4,8 @@ namespace GymManagement.Domain.Rooms;
 
 public class Room: Entity
 {
-    private int _maxDailySessions;
-    private int _capacity;
+    public int MaxDailySessions { get; }
+    public int Capacity { get; }
     
     public Guid GymId { get; }
 
@@ -15,8 +15,8 @@ public class Room: Entity
         Guid gymId,
         Guid? id = null) : base(id)
     {
-        _maxDailySessions = maxDailySessions;
-        _capacity = capacity;
+        MaxDailySessions = maxDailySessions;
+        Capacity = capacity;
         GymId = gymId;
     }
 }
