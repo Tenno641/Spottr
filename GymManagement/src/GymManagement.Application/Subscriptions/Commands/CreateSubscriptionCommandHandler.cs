@@ -19,11 +19,14 @@ public class CreateSubscriptionCommandHandler: IRequestHandler<CreateSubscriptio
     {
         Admin? admin = await _adminsRepository.GetByIdAsync(request.AdminId);
         if (admin is null)
-            return Error.NotFound("Admin is not found");
+            return Error.NotFound(description: "Admin is not found");
 
         Subscription subscription = new Subscription(request.AdminId, request.SubscriptionType);
 
-        admin.SetSubscription(subscription);
+        ErrorOr<Success> result = admin.SetSubscription(subscription);
+        
+        if (result.IsError)
+            return result.Errors;
         
         await _adminsRepository.UpdateAsync(admin);
         

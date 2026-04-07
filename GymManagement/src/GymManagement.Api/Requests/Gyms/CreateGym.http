@@ -1,0 +1,10 @@
+﻿@gym-host = http://localhost:5218
+@subscriptionId = e327b478-cf90-4d87-bcd9-1581aed889e1
+
+POST {{gym-host}}/subscriptions/{{subscriptionId}}/gyms
+Content-Type: application/json
+
+{
+  "Name": "Gym-Name",
+  "MaxRooms": 3
+}

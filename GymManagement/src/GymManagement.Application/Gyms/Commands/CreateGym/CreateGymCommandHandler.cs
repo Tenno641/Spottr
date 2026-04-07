@@ -24,7 +24,7 @@ public class CreateGymCommandHandler: IRequestHandler<CreateGymCommand, ErrorOr<
 
         Gym gym = new Gym(
             subscriptionId: request.SubscriptionId,
-            maxRooms: request.MaxRooms,
+            maxRooms: subscription.GetMaxRooms(),
             name: request.Name);
         
         ErrorOr<Created> result = subscription.AddGym(gym);

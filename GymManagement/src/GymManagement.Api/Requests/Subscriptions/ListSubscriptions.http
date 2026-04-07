@@ -1,0 +1,3 @@
+﻿@gym-host = http://localhost:5218
+
+GET {{gym-host}}/subscriptions

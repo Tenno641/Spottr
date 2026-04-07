@@ -10,7 +10,8 @@ public class Subscription : AggregateRoot
     private List<Guid> _gymIds = [];
     private int _maxGyms;
     private Guid _adminId;
-    private SubscriptionType SubscriptionType { get; }
+    
+    public SubscriptionType SubscriptionType { get; }
 
     public Subscription(
         Guid adminId,
@@ -59,4 +60,28 @@ public class Subscription : AggregateRoot
             _ => throw new ArgumentOutOfRangeException(nameof(SubscriptionType), SubscriptionType, null)
         };
     }
+
+    public int GetMaxRooms()
+    {
+        return SubscriptionType switch
+        {
+            SubscriptionType.Free => 1,
+            SubscriptionType.Starter => 3,
+            SubscriptionType.Premium => int.MaxValue,
+            _ => throw new ArgumentOutOfRangeException(nameof(SubscriptionType), SubscriptionType, null)
+        };
+    }
+    
+    public int GetMaxDailySessions()
+    {
+        return SubscriptionType switch
+        {
+            SubscriptionType.Free => 1,
+            SubscriptionType.Starter => 3,
+            SubscriptionType.Premium => int.MaxValue,
+            _ => throw new ArgumentOutOfRangeException(nameof(SubscriptionType), SubscriptionType, null)
+        };
+    }
+
+    private Subscription() { }
 }
