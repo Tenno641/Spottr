@@ -9,12 +9,10 @@ namespace GymManagement.Application.Gyms.Commands.CreateGym;
 public class CreateGymCommandHandler: IRequestHandler<CreateGymCommand, ErrorOr<Guid>>
 {
     private readonly ISubscriptionsRepository _subscriptionsRepository;
-    private readonly IGymsRepository _gymsRepository;
     
-    public CreateGymCommandHandler(ISubscriptionsRepository subscriptionsRepository, IGymsRepository gymsRepository)
+    public CreateGymCommandHandler(ISubscriptionsRepository subscriptionsRepository)
     {
         _subscriptionsRepository = subscriptionsRepository;
-        _gymsRepository = gymsRepository;
     }
     
     public async Task<ErrorOr<Guid>> Handle(CreateGymCommand request, CancellationToken cancellationToken)
@@ -33,8 +31,8 @@ public class CreateGymCommandHandler: IRequestHandler<CreateGymCommand, ErrorOr<
 
         if (result.IsError)
             return result.Errors;
-
-        await _gymsRepository.AddGymAsync(gym);
+        
+        await _subscriptionsRepository.UpdateAsync(subscription);
 
         return gym.Id;
     }

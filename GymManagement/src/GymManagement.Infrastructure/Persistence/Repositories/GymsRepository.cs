@@ -35,6 +35,14 @@ public class GymsRepository: IGymsRepository
     public async Task UpdateGymAsync(Gym gym)
     {
         _dbContext.Gyms.Update(gym);
+        
+        await _dbContext.SaveChangesAsync();
+    }
+    
+    public async Task DeleteGymAsync(Gym gym)
+    {
+        _dbContext.Gyms.Remove(gym);
+        
         await _dbContext.SaveChangesAsync();
     }
 }

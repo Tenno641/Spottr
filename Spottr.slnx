@@ -37,4 +37,5 @@
   <Folder Name="/UserManagement/test/">
     <Project Path="UserManagement/test/UserManagement.Domain.UnitTests/UserManagement.Domain.UnitTests.csproj" />
   </Folder>
+  <Project Path="SharedKernel/SharedKernel.csproj" />
 </Solution>

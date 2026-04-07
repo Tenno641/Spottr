@@ -2,6 +2,7 @@
 using GymManagement.Domain.Common;
 using GymManagement.Domain.GymAggregate.Events;
 using GymManagement.Domain.Rooms;
+using GymManagement.Domain.Trainers;
 
 namespace GymManagement.Domain.GymAggregate;
 
@@ -34,17 +35,20 @@ public class Gym : AggregateRoot
             return GymErrors.CannotHaveMoreRooms;
         
         _roomIds.Add(room.Id);
-        _domainEvents.Add(new RoomAddedEvent()); // TODO REMEMBER THIS!
+        _domainEvents.Add(new RoomAddedEvent(room));
 
         return Result.Created;
     }
 
-    public ErrorOr<Success> AddTrainer(Guid trainerId)
+    public ErrorOr<Success> AddTrainer(Trainer trainer)
     {
-        if (_trainersIds.Contains(trainerId))
+        if (_trainersIds.Contains(trainer.Id))
             return Error.Conflict(description: "Trainer already added to the gym");
         
-        _trainersIds.Add(trainerId);
+        _trainersIds.Add(trainer.Id);
+        
+        _domainEvents.Add(new TrainerAddedEvent(trainer));
+        
         return Result.Success;
     }
 
@@ -54,7 +58,8 @@ public class Gym : AggregateRoot
         
         if (!isDeleted) return Error.NotFound(description: "Room is not found");
 
-        _domainEvents.Add(new RoomDeletedEvent()); // TODO: Remember this
+        _domainEvents.Add(new RoomDeletedEvent(roomId));
+        
         return Result.Deleted;
     }
 }

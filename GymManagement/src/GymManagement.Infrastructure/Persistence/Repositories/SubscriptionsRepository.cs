@@ -18,4 +18,18 @@ public class SubscriptionsRepository: ISubscriptionsRepository
         return await _dbContext.Subscriptions
             .FirstOrDefaultAsync(subscription => subscription.Id == id);
     }
+    
+    public async Task AddSubscriptionAsync(Subscription subscription)
+    {
+        _dbContext.Subscriptions.Add(subscription);
+        
+        await _dbContext.SaveChangesAsync();
+    }
+    
+    public async Task UpdateAsync(Subscription subscription)
+    {
+        _dbContext.Subscriptions.Update(subscription);
+        
+        await _dbContext.SaveChangesAsync();
+    }
 }

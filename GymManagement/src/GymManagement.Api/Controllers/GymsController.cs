@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using ErrorOr;
 using GymManagement.Application.Gyms.Commands.AddTrainer;
 using GymManagement.Application.Gyms.Commands.CreateGym;
+using GymManagement.Application.Gyms.Commands.DeleteGym;
 using GymManagement.Application.Gyms.Queries.ListGyms;
 using GymManagement.Application.Gyms.Queries.QueryGym;
 using GymManagement.Domain.GymAggregate;
@@ -62,6 +63,18 @@ public class GymsController: ApiController
         AddTrainerCommand command = new AddTrainerCommand(subscriptionId, gymId, request.TrainerId);
 
         ErrorOr<Success> result = await _mediator.Send(command);
+
+        return result.IsError
+            ? Problem(result.Errors)
+            : Ok();
+    }
+
+    [HttpDelete("{gymId:guid}")]
+    public async Task<IActionResult> DeleteGym(Guid subscriptionId, Guid gymId)
+    {
+        DeleteGymCommand command = new DeleteGymCommand(subscriptionId, gymId);
+
+        ErrorOr<Deleted> result = await _mediator.Send(command);
 
         return result.IsError
             ? Problem(result.Errors)

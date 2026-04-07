@@ -21,6 +21,7 @@ public class AdminsRepository: IAdminsRepository
     public Task UpdateAsync(Admin admin)
     {
         _dbContext.Admins.Update(admin);
+        
         return _dbContext.SaveChangesAsync();
     }
 }
