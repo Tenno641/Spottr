@@ -2,6 +2,7 @@
 using GymManagement.Application.Common.Interface;
 using GymManagement.Domain.GymAggregate;
 using GymManagement.Domain.Rooms;
+using GymManagement.Domain.SubscriptionAggregate;
 using MediatR;
 
 namespace GymManagement.Application.Rooms.CreateRoom;
@@ -9,10 +10,12 @@ namespace GymManagement.Application.Rooms.CreateRoom;
 public class CreateRoomCommandHandler: IRequestHandler<CreateRoomCommand, ErrorOr<Guid>>
 {
     private readonly IGymsRepository _gymsRepository;
+    private readonly ISubscriptionsRepository _subscriptionsRepository;
     
-    public CreateRoomCommandHandler(IGymsRepository gymsRepository)
+    public CreateRoomCommandHandler(IGymsRepository gymsRepository, ISubscriptionsRepository subscriptionsRepository)
     {
         _gymsRepository = gymsRepository;
+        _subscriptionsRepository = subscriptionsRepository;
     }
     
     public async Task<ErrorOr<Guid>> Handle(CreateRoomCommand request, CancellationToken cancellationToken)
@@ -20,8 +23,15 @@ public class CreateRoomCommandHandler: IRequestHandler<CreateRoomCommand, ErrorO
         Gym? gym = await _gymsRepository.GetGymByIdAsync(request.GymId);
         if (gym is null)
             return Error.NotFound(description: "Gym is not found");
+        
+        Subscription? subscription = await _subscriptionsRepository.GetSubscriptionByIdAsync(gym.SubscriptionId);
+        if (subscription is null)
+            return Error.NotFound(description: "Subscription is not found");
 
-        Room room = new Room(request.MaxDailySessions, request.Capacity, request.GymId);
+        Room room = new Room(
+            maxDailySessions: subscription.GetMaxDailySessions(),
+            capacity: request.Capacity,
+            gymId: request.GymId);
 
         ErrorOr<Created> result = gym.AddRoom(room);
         if (result.IsError)

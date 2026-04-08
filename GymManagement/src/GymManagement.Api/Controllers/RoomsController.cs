@@ -20,7 +20,7 @@ public class RoomsController: ApiController
     [HttpPost]
     public async Task<IActionResult> CreateRoom(Guid gymId, CreateRoomRequest request)
     {
-        CreateRoomCommand command = new CreateRoomCommand(gymId, request.MaxDailySessions, request.Capacity);
+        CreateRoomCommand command = new CreateRoomCommand(gymId, request.Capacity);
 
         ErrorOr<Guid> result = await _mediator.Send(command);
 
@@ -30,9 +30,9 @@ public class RoomsController: ApiController
     }
 
     [HttpDelete("{roomId:guid}")]
-    public async Task<IActionResult> DeleteRoom(Guid gymIm, Guid roomId)
+    public async Task<IActionResult> DeleteRoom(Guid gymId, Guid roomId)
     {
-        DeleteRoomCommand command = new DeleteRoomCommand(gymIm, roomId);
+        DeleteRoomCommand command = new DeleteRoomCommand(gymId, roomId);
 
         ErrorOr<Deleted> result = await _mediator.Send(command);
 

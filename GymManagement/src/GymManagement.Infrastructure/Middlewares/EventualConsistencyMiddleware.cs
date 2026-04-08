@@ -17,7 +17,7 @@ public class EventualConsistencyMiddleware
         _next = next;
     }
 
-    public async Task InvokeAsync(HttpContext context, RequestDelegate next, IPublisher publisher, GymManagementDbContext dbContext)
+    public async Task InvokeAsync(HttpContext context, IPublisher publisher, GymManagementDbContext dbContext)
     {
         IDbContextTransaction transaction = await dbContext.Database.BeginTransactionAsync();
         context.Response.OnCompleted(async () =>

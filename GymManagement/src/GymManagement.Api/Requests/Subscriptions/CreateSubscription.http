@@ -1,0 +1,10 @@
+﻿@gym-host = http://localhost:5218
+@adminId = 5d01950f-8380-4831-95ac-8fc34f572a61
+
+POST {{gym-host}}/subscriptions
+Content-Type: application/json
+
+{
+  "SubscriptionType": "Starter",
+  "AdminId": "{{adminId}}"
+}

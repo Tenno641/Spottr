@@ -9,11 +9,11 @@ namespace GymManagement.Domain.GymAggregate;
 public class Gym : AggregateRoot
 {
     private List<Guid> _roomIds = [];
-    public string Name { get; }
     private int _maxRooms;
     private List<Guid> _trainersIds = [];
     
-    public Guid SubscriptionId { get; }
+    public string Name { get; private set; }
+    public Guid SubscriptionId { get; private set; }
 
     public Gym(
         Guid subscriptionId,
@@ -62,4 +62,6 @@ public class Gym : AggregateRoot
         
         return Result.Deleted;
     }
+    
+    private Gym() { }
 }

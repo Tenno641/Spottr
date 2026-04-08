@@ -24,4 +24,6 @@ public class Admin : AggregateRoot
 
         return Result.Success;
     }
+    
+    private Admin() { }
 }

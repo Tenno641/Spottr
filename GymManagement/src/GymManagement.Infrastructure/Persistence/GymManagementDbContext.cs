@@ -1,8 +1,8 @@
-﻿using GymManagement.Domain.AdminAggregate;
+﻿using System.Reflection;
+using GymManagement.Domain.AdminAggregate;
 using GymManagement.Domain.Common;
 using GymManagement.Domain.GymAggregate;
 using GymManagement.Domain.SubscriptionAggregate;
-using GymManagement.Infrastructure.IntegrationEvents;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -34,6 +34,8 @@ public class GymManagementDbContext: DbContext
         modelBuilder.AddInboxStateEntity();
         modelBuilder.AddOutboxMessageEntity();
         modelBuilder.AddOutboxStateEntity();
+        
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 
     public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
@@ -68,7 +70,7 @@ public class GymManagementDbContext: DbContext
             ? existingDomainEvents
             : new Queue<IDomainEvent>();
         
-        events.ForEach(@event => domainEventsQueue.Enqueue(@event));
+        events.ForEach(domainEventsQueue.Enqueue);
         _contextAccessor.HttpContext.Items["DomainEvents"] = domainEventsQueue;
     }
 }
