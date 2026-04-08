@@ -26,7 +26,7 @@ public class CreateRoomCommandHandler: IRequestHandler<CreateRoomCommand, ErrorO
         
         Subscription? subscription = await _subscriptionsRepository.GetSubscriptionByIdAsync(gym.SubscriptionId);
         if (subscription is null)
-            return Error.NotFound("Subscription not found");
+            return Error.NotFound(description: "Subscription is not found");
 
         Room room = new Room(
             maxDailySessions: subscription.GetMaxDailySessions(),

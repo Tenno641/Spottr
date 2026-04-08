@@ -1,4 +1,4 @@
 @gym-host = http://localhost:5218
-@subscriptionId = e327b478-cf90-4d87-bcd9-1581aed889e1
+@subscriptionId = 019d6c5c-6e58-77d7-8373-a128d16995dc
 
 GET {{gym-host}}/subscriptions/{{subscriptionId}}/gyms

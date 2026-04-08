@@ -30,9 +30,9 @@ public class RoomsController: ApiController
     }
 
     [HttpDelete("{roomId:guid}")]
-    public async Task<IActionResult> DeleteRoom(Guid gymIm, Guid roomId)
+    public async Task<IActionResult> DeleteRoom(Guid gymId, Guid roomId)
     {
-        DeleteRoomCommand command = new DeleteRoomCommand(gymIm, roomId);
+        DeleteRoomCommand command = new DeleteRoomCommand(gymId, roomId);
 
         ErrorOr<Deleted> result = await _mediator.Send(command);
 

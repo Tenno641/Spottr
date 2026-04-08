@@ -11,16 +11,16 @@ public class Subscription : AggregateRoot
     private int _maxGyms;
     private Guid _adminId;
     
-    public SubscriptionType SubscriptionType { get; }
+    public SubscriptionType SubscriptionType { get; private set; }
 
     public Subscription(
         Guid adminId,
         SubscriptionType subscriptionType,
         Guid? id = null) : base(id)
     {
+        SubscriptionType = subscriptionType;
         _maxGyms = GetMaxGyms();
         _adminId = adminId;
-        SubscriptionType = subscriptionType;
     }
    
     public ErrorOr<Created> AddGym(Gym gym)

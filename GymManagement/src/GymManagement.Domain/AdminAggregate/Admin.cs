@@ -9,9 +9,8 @@ public class Admin : AggregateRoot
 {
     private Guid? _subscriptionId;
 
-    public Admin(Guid subscriptionId, Guid? id = null) : base(id)
+    public Admin(Guid? id = null) : base(id)
     {
-        _subscriptionId = subscriptionId;
     }
 
     public ErrorOr<Success> SetSubscription(Subscription subscription)

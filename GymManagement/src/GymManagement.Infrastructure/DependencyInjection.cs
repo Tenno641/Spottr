@@ -28,7 +28,8 @@ public static class DependencyInjection
         
         services.AddDbContext<GymManagementDbContext>(options =>
         {
-            options.UseNpgsql(Environment.GetEnvironmentVariable("DatabaseConnectionString"));
+            // options.UseNpgsql(Environment.GetEnvironmentVariable("DatabaseConnectionString"));
+            options.UseNpgsql("Server=localhost; Database=postgres; Username=postgres; Password=password; Port=5432");
         });
         
         return services;

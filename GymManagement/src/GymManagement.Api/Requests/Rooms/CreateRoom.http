@@ -1,0 +1,9 @@
+@gym-host = http://localhost:5218
+@gymId = 019d6c5d-933b-7ac4-8a56-f0c411537c61
+
+POST {{gym-host}}/gyms/{{gymId}}/rooms
+Content-Type: application/json
+
+{
+  "Capacity": 20
+}
