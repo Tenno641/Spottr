@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SessionReservation.Application.Common.Interfaces;
 using SessionReservation.Infrastructure.Persistence;
@@ -32,6 +34,28 @@ public static class DependencyInjection
         services.AddDbContext<SessionReservationDbContext>(optios =>
         {
             optios.UseSqlServer(Environment.GetEnvironmentVariable("DatabaseConnectionString"));
+        });
+
+        return services;
+    }
+
+    private static IServiceCollection AddMasstransitConfiguration(this IServiceCollection services)
+    {
+        services.AddMassTransit(busConfig =>
+        {
+            busConfig.AddEntityFrameworkOutbox<SessionReservationDbContext>(outboxConfig =>
+            {
+                outboxConfig.DuplicateDetectionWindow = TimeSpan.FromMinutes(5);
+                outboxConfig.QueryMessageLimit = 10;
+                outboxConfig.QueryDelay = TimeSpan.FromSeconds(30);
+                outboxConfig.UseBusOutbox();
+                outboxConfig.UsePostgres();
+            });
+
+            busConfig.UsingRabbitMq((context, cfg) =>
+            {
+                cfg.ConfigureEndpoints(context);
+            });
         });
 
         return services;

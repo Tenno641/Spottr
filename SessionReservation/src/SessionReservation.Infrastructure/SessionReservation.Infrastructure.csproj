@@ -7,12 +7,19 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="MassTransit" Version="8.5.9" />
+      <PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.5.9" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.9" />
       <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.9" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\SessionReservation.Application\SessionReservation.Application.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Persistence\Configurations\" />
     </ItemGroup>
 
 </Project>

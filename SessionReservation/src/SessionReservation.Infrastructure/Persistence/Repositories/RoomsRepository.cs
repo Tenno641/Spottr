@@ -17,4 +17,17 @@ public class RoomsRepository: IRoomRepository
     {
         return await _dbContext.Rooms.FirstOrDefaultAsync(room => room.Id == id);
     }
+    
+    public async Task AddRoomAsync(Room room)
+    {
+        _dbContext.Rooms.Add(room);
+        
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task DeleteRoomByIdAsync(Room room)
+    {
+        _dbContext.Rooms.Remove(room);
+        await _dbContext.SaveChangesAsync();
+    }
 }
