@@ -63,9 +63,20 @@ public class Session : AggregateRoot
         if (IsCancellationTimeClose(dateTimeProvider))
             return Error.Forbidden(code: "Session.CancelReservation", description: "Cannot cancel reservation in the last 24 hour");
 
-        _reservations.RemoveAll(reservation => reservation.ParticipantId == participantId);
+        Reservation? reservation = _reservations.FirstOrDefault(reservation => reservation.ParticipantId == participantId);
+        if (reservation is null)
+            return SessionErrors.ReservationNotFound;
+            
+        _reservations.Remove(reservation);
+        
+        _domainEvents.Add(new ReservationCancelledEvent());// TODO: Remember this 
 
         return Result.Deleted;
+    }
+
+    public void Cancel()
+    {
+        _domainEvents.Add(new SessionCancelledEvent()); // TODO: Remember this
     }
 
     private bool IsCancellationTimeClose(IDateTimeProvider dateTimeProvider)
@@ -88,4 +99,6 @@ public class Session : AggregateRoot
             _ => 20
         };
     }
+    
+    private Session() { }
 }

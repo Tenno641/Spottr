@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
 using SessionReservation.Domain.Common;
 using SessionReservation.Domain.Equipments;
+using SessionReservation.Domain.RoomAggregate.Events;
 using SessionReservation.Domain.SessionAggregate;
 
 namespace SessionReservation.Domain.RoomAggregate;
@@ -49,6 +50,10 @@ public class Room : AggregateRoot
             equipment.Schedule.BookTimeSlot(session.Date, session.TimeRange);
         }
         
+        _domainEvents.Add(new SessionScheduledEvent(session));
+        
         return Result.Created;
     }
+    
+    private Room() { }
 }

@@ -7,11 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\SharedKernel\SharedKernel.csproj" />
       <ProjectReference Include="..\SessionReservation.Domain\SessionReservation.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Rooms\" />
       <Folder Include="Sessions\" />
       <Folder Include="Trainers\" />
     </ItemGroup>

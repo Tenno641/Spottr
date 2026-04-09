@@ -34,4 +34,6 @@ public class Participant : AggregateRoot
 
         return Result.Success;
     }
+
+    private Participant() { }
 }

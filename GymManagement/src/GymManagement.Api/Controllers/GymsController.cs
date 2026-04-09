@@ -58,9 +58,9 @@ public class GymsController: ApiController
     }
 
     [HttpPost("{gymId:guid}/trainers")]
-    public async Task<IActionResult> AddTrainer(Guid subscriptionId, Guid gymId, AddTrainerRequest request)
+    public async Task<IActionResult> AddTrainer(Guid gymId, AddTrainerRequest request)
     {
-        AddTrainerCommand command = new AddTrainerCommand(subscriptionId, gymId, request.TrainerId);
+        AddTrainerCommand command = new AddTrainerCommand(gymId, request.TrainerId);
 
         ErrorOr<Success> result = await _mediator.Send(command);
 

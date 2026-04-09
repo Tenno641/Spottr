@@ -2,7 +2,6 @@
 using GymManagement.Domain.Common;
 using GymManagement.Domain.GymAggregate.Events;
 using GymManagement.Domain.Rooms;
-using GymManagement.Domain.Trainers;
 
 namespace GymManagement.Domain.GymAggregate;
 
@@ -40,14 +39,12 @@ public class Gym : AggregateRoot
         return Result.Created;
     }
 
-    public ErrorOr<Success> AddTrainer(Trainer trainer)
+    public ErrorOr<Success> AddTrainer(Guid id)
     {
-        if (_trainersIds.Contains(trainer.Id))
+        if (_trainersIds.Contains(id))
             return Error.Conflict(description: "Trainer already added to the gym");
         
-        _trainersIds.Add(trainer.Id);
-        
-        _domainEvents.Add(new TrainerAddedEvent(trainer));
+        _trainersIds.Add(id);
         
         return Result.Success;
     }

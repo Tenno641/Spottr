@@ -6,5 +6,5 @@ public static class SessionErrors
 {
     public static Error SessionAlreadyReserved => Error.Conflict(code: "Session.ReserveSpot", description: "Session Already Reserved");
     public static Error ParticipantMustMeetTheMinimumAge => Error.Forbidden(code: "Session.ReserveSpot", description: "Participant must meet the minimum age");
-
+    public static Error ReservationNotFound=> Error.NotFound(code: "Session.CancelReservation", description: "Reservation is not found");
 }

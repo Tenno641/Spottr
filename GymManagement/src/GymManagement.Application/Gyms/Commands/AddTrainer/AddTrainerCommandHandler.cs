@@ -1,8 +1,6 @@
 ﻿using ErrorOr;
 using GymManagement.Application.Common.Interface;
 using GymManagement.Domain.GymAggregate;
-using GymManagement.Domain.SubscriptionAggregate;
-using GymManagement.Domain.Trainers;
 using MediatR;
 
 namespace GymManagement.Application.Gyms.Commands.AddTrainer;
@@ -23,9 +21,7 @@ public class AddTrainerCommandHandler: IRequestHandler<AddTrainerCommand, ErrorO
         if (gym is null)
             return Error.NotFound(description: "Gym is not found");
 
-        Trainer trainer = new Trainer(request.GymId);
-
-        ErrorOr<Success> result = gym.AddTrainer(trainer);
+        ErrorOr<Success> result = gym.AddTrainer(request.TrainerId);
         
         return result.IsError
             ? result.Errors

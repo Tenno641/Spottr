@@ -34,4 +34,19 @@ public class Trainer : AggregateRoot
         
         return Result.Created;
     }
+    
+    public ErrorOr<Deleted> RemoveTrainer(Session session)
+    {
+        if (!_sessionId.Contains(session.Id))
+            return TrainerErrors.SessionNotFound;
+
+        ErrorOr<Deleted> removeFromScheduleResult = _schedule.RemoveBooking(session.Date, session.TimeRange);
+        if (removeFromScheduleResult.IsError)
+            return removeFromScheduleResult.Errors;
+        
+        _sessionId.Remove(session.Id);
+        return Result.Deleted;
+    }
+
+    private Trainer() { }
 }
