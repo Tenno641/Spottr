@@ -30,4 +30,9 @@ public class RoomsRepository: IRoomRepository
         _dbContext.Rooms.Remove(room);
         await _dbContext.SaveChangesAsync();
     }
+    
+    public async Task<List<Room>> ListRoomsByGymIdAsync(Guid gymId)
+    {
+        return await _dbContext.Rooms.Where(room => room.GymId == gymId).ToListAsync();
+    }
 }

@@ -9,12 +9,12 @@ namespace SessionReservation.Domain.SessionAggregate;
 
 public class Session : AggregateRoot
 {
-    private Guid _roomId;
-    private Guid _trainerId;
     private List<Reservation> _reservations = [];
-    private readonly SessionTypes _type;
-    private readonly int _minimumAge;
 
+    public Guid TrainerId { get; }
+    public Guid RoomId { get; }
+    public int MinimumAge { get; }
+    public SessionTypes Type { get; private set; }
     public DateOnly Date { get; }
     public TimeRange TimeRange { get; }
     public List<Equipment> Equipments { get; }
@@ -31,12 +31,12 @@ public class Session : AggregateRoot
         int minimumAge = int.MaxValue,
         Guid? id = null) : base(id)
     {
-        _trainerId = trainerId;
-        _roomId = roomId;
+        TrainerId = trainerId;
+        RoomId = roomId;
         Capacity = capacity ?? GetCapacityByType();
-        _type = type;
+        Type = type;
         Date = date;
-        _minimumAge = minimumAge;
+        MinimumAge = minimumAge;
         Equipments = equipments;
         TimeRange = timeRange;
     }
@@ -46,7 +46,7 @@ public class Session : AggregateRoot
         if (IsSpotAlreadyReserved(participant.Id))
             return SessionErrors.SessionAlreadyReserved;
 
-        if (participant.Age < _minimumAge)
+        if (participant.Age < MinimumAge)
             return SessionErrors.ParticipantMustMeetTheMinimumAge;
 
         Reservation reservation = new Reservation(participant.Id);
@@ -66,17 +66,19 @@ public class Session : AggregateRoot
         Reservation? reservation = _reservations.FirstOrDefault(reservation => reservation.ParticipantId == participantId);
         if (reservation is null)
             return SessionErrors.ReservationNotFound;
+        
+        // Consider Paying pack
             
         _reservations.Remove(reservation);
         
-        _domainEvents.Add(new ReservationCancelledEvent());// TODO: Remember this 
+        _domainEvents.Add(new ReservationCancelledEvent(this, participantId));
 
         return Result.Deleted;
     }
 
     public void Cancel()
     {
-        _domainEvents.Add(new SessionCancelledEvent()); // TODO: Remember this
+        _domainEvents.Add(new SessionCancelledEvent()); // TODO: Remember this - Cancel Reservation, Free Participants Schedule 
     }
 
     private bool IsCancellationTimeClose(IDateTimeProvider dateTimeProvider)
@@ -91,7 +93,7 @@ public class Session : AggregateRoot
 
     private int GetCapacityByType()
     {
-        return _type switch
+        return Type switch
         {
             SessionTypes.Cardio => 15,
             SessionTypes.Strength => 7,

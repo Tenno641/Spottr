@@ -2,4 +2,4 @@
 
 namespace SessionReservation.Domain.SessionAggregate.Events;
 
-public record ReservationCancelledEvent() : IDomainEvent;
+public record ReservationCancelledEvent(Session Session, Guid ParticipantId) : IDomainEvent;

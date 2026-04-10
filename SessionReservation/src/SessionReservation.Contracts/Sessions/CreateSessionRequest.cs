@@ -1,6 +1,8 @@
 ﻿namespace SessionReservation.Contracts.Sessions;
 
 public record CreateSessionRequest(
+    string Name,
+    string Description,
     Guid TrainerId,
     int? Capacity,
     string SessionType,

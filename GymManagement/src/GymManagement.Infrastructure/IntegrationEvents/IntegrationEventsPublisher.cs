@@ -21,6 +21,7 @@ public class IntegrationEventsPublisher:
         RoomAddedIntegrationEvent integrationEvent = new RoomAddedIntegrationEvent(
             Capacity: notification.Room.Capacity,
             MaxDailySessions: notification.Room.MaxDailySessions,
+            Name: notification.Room.Name,
             GymId: notification.Room.GymId,
             RoomId: notification.Room.Id);
         

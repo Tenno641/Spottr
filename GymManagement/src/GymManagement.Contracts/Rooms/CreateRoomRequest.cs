@@ -1,3 +1,3 @@
 ﻿namespace GymManagement.Contracts.Rooms;
 
-public record CreateRoomRequest(int Capacity);
+public record CreateRoomRequest(int Capacity, string Name);

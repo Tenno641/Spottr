@@ -46,7 +46,9 @@ public class CreateSessionCommandHandler: IRequestHandler<CreateSessionCommand, 
         if (result.IsError)
             return result.Errors;
 
-        await _sessionsRepository.AddSessionAsync(session);
+        await _sessionsRepository.AddSessionAsync(session); // TODO: Remove this and let the room create the session
+        
+        // TODO: Equipment must be an Entity and doesn't have DbSet in EF
 
         return session.Id;
     }

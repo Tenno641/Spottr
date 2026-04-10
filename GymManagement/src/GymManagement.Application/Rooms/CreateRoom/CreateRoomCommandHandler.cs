@@ -30,6 +30,7 @@ public class CreateRoomCommandHandler: IRequestHandler<CreateRoomCommand, ErrorO
 
         Room room = new Room(
             maxDailySessions: subscription.GetMaxDailySessions(),
+            name: request.Name,
             capacity: request.Capacity,
             gymId: request.GymId);
 

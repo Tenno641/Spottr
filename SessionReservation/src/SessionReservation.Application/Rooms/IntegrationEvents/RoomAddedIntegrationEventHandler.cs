@@ -20,6 +20,7 @@ public class RoomAddedIntegrationEventHandler
         Room room = new Room(
             capacity: notification.Capacity,
             maxDailySessions: notification.MaxDailySessions,
+            name: notification.Name,
             gymId: notification.GymId,
             id: notification.RoomId);
 
