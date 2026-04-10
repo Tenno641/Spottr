@@ -14,15 +14,19 @@ public class Room : AggregateRoot
 
     private int _capacity;
     
-    public Guid GymId { get; }
+    public IReadOnlyList<Guid> SessionIds => _sessionIds;
+    public Guid GymId { get; private set; }
+    public string Name { get; private set; }
 
     public Room(int capacity,
         int maxDailySessions,
+        string name,
         Guid gymId,
         Guid? id = null) : base(id)
     {
         _capacity = capacity;
         _maxDailySessions = maxDailySessions;
+        Name = name;
         GymId = gymId;
     }
 

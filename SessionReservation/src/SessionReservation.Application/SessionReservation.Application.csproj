@@ -12,8 +12,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Sessions\" />
+      <Folder Include="Participants\Commands\" />
       <Folder Include="Trainers\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MediatR" Version="14.1.0" />
     </ItemGroup>
 
 </Project>

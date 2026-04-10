@@ -26,9 +26,9 @@ public class SessionSpotReservedEventHandler: INotificationHandler<SessionSpotRe
 
         if (result.IsError)
         {
-            // retries or return exception for now.
+            // retries or return exception for now. // TODO: Remember This
         }
 
-        await _participantRepository.UpdateParticipant(participant);
+        await _participantRepository.UpdateParticipantAsync(participant);
     }
 }

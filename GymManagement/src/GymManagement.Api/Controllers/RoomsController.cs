@@ -20,7 +20,7 @@ public class RoomsController: ApiController
     [HttpPost]
     public async Task<IActionResult> CreateRoom(Guid gymId, CreateRoomRequest request)
     {
-        CreateRoomCommand command = new CreateRoomCommand(gymId, request.Capacity);
+        CreateRoomCommand command = new CreateRoomCommand(gymId, request.Capacity, request.Name);
 
         ErrorOr<Guid> result = await _mediator.Send(command);
 

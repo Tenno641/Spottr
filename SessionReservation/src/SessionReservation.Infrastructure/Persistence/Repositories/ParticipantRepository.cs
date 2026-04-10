@@ -22,7 +22,7 @@ public class ParticipantRepository: IParticipantRepository
         return participant;
     }
     
-    public Task UpdateParticipant(Participant participant)
+    public Task UpdateParticipantAsync(Participant participant)
     {
         _dbContext.Update(participant);
         return Task.CompletedTask;

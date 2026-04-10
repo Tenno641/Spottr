@@ -8,5 +8,6 @@ public static partial class Constants
         public static Guid GymId => Guid.CreateVersion7();
         public static int MaxDailySessions => 3;
         public static int Capacity => 3;
+        public static string Name => "Room-Name";
     }
 }
