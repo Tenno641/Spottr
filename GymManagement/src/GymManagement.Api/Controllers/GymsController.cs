@@ -24,7 +24,7 @@ public class GymsController: ApiController
     [HttpPost]
     public async Task<IActionResult> CreateGym(Guid subscriptionId, CreateGymRequest request)
     {
-        CreateGymCommand command = new CreateGymCommand(subscriptionId, request.Name);
+        CreateGymCommand command = new CreateGymCommand(subscriptionId, request.Name, request.Equipments);
 
         ErrorOr<Guid> result = await _mediator.Send(command);
 

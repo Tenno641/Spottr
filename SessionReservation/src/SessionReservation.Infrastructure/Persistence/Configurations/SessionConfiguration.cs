@@ -1,6 +1,7 @@
 ﻿using MassTransit.EntityFrameworkCoreIntegration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SessionReservation.Domain.Common.Entities;
 using SessionReservation.Domain.Common.ValueObjects;
 using SessionReservation.Domain.SessionAggregate;
 
@@ -51,7 +52,7 @@ public class SessionConfiguration: IEntityTypeConfiguration<Session>
 
         builder.OwnsMany(s => s.Equipments, equipmentsBuilder =>
         {
-            equipmentsBuilder.ToTable("Equipments");
+            equipmentsBuilder.ToTable("SessionEquipments");
             
             equipmentsBuilder.WithOwner().HasForeignKey("SessionId");
 
@@ -69,7 +70,8 @@ public class SessionConfiguration: IEntityTypeConfiguration<Session>
                     .HasColumnName("ScheduleId")
                     .ValueGeneratedNever();
                 
-                scheduleBuilder.Property(s => s.Calendar)
+                scheduleBuilder
+                    .Property(s => s.Calendar)
                     .HasColumnName("ScheduleCalendar")
                     .HasJsonConversion();
             });

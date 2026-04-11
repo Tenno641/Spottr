@@ -1,5 +1,6 @@
 ﻿using ErrorOr;
 using GymManagement.Domain.Common;
+using GymManagement.Domain.Common.Entities;
 using GymManagement.Domain.GymAggregate.Events;
 using GymManagement.Domain.Rooms;
 
@@ -11,17 +12,20 @@ public class Gym : AggregateRoot
     private int _maxRooms;
     private List<Guid> _trainersIds = [];
     
+    public List<Equipment> Equipments { get; }
     public string Name { get; private set; }
-    public Guid SubscriptionId { get; private set; }
+    public Guid SubscriptionId { get; }
 
     public Gym(
         Guid subscriptionId,
         int maxRooms,
         string name,
+        List<Equipment> equipments,
         Guid? id = null) : base(id)
     {
         SubscriptionId = subscriptionId;
         Name = name;
+        Equipments = equipments;
         _maxRooms = maxRooms;
     }
 

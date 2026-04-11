@@ -1,7 +1,4 @@
-﻿using SessionReservation.Domain.Common;
-using SessionReservation.Domain.Common.ValueObjects;
-
-namespace SessionReservation.Domain.Equipments;
+﻿namespace GymManagement.Domain.Common.Entities;
 
 public class Equipment: Entity
 {

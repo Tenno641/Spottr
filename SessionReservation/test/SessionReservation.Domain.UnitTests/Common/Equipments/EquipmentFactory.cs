@@ -1,4 +1,4 @@
-﻿using SessionReservation.Domain.Equipments;
+﻿using SessionReservation.Domain.Common.Entities;
 
 namespace SessionReservation.Domain.UnitTests.Common.Equipments;
 

@@ -29,7 +29,8 @@ public class SubscriptionConfigurations: IEntityTypeConfiguration<Subscription>
             .HasColumnType("uuid")
             .ValueGeneratedNever();
 
-        builder
-            .HasKey(s => s.Id);
+        builder.HasKey(s => s.Id);
+
+        builder.Property(s => s.SubscriptionType);
     }
 }

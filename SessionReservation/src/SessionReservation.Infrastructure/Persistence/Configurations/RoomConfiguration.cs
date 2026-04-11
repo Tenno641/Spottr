@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SessionReservation.Domain.Common;
+using SessionReservation.Domain.Common.Entities;
 using SessionReservation.Domain.Common.ValueObjects;
 using SessionReservation.Domain.RoomAggregate;
 using SessionReservation.Infrastructure.Persistence.Converters;

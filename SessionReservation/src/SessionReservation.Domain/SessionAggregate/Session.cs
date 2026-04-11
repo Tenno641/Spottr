@@ -1,8 +1,8 @@
 ﻿using ErrorOr;
 using SessionReservation.Domain.Common;
+using SessionReservation.Domain.Common.Entities;
 using SessionReservation.Domain.Common.Interfaces;
 using SessionReservation.Domain.Common.ValueObjects;
-using SessionReservation.Domain.Equipments;
 using SessionReservation.Domain.ParticipantAggregate;
 using SessionReservation.Domain.SessionAggregate.Events;
 
@@ -12,7 +12,7 @@ public class Session : AggregateRoot
 {
     private List<Reservation> _reservations = [];
 
-    public List<Equipment> Equipments = [];
+    public List<Equipment> Equipments { get; }
     public Guid TrainerId { get; private set; }
     public Guid RoomId { get; private set; }
     public int MinimumAge { get; }

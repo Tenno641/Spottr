@@ -1,6 +1,7 @@
 ﻿using MassTransit.EntityFrameworkCoreIntegration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SessionReservation.Domain.Common.Entities;
 using SessionReservation.Domain.Common.ValueObjects;
 using SessionReservation.Domain.TrainerAggregate;
 using SessionReservation.Infrastructure.Persistence.Converters;
