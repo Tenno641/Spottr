@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
 using SessionReservation.Domain.Common;
 using SessionReservation.Domain.Common.Interfaces;
+using SessionReservation.Domain.Common.ValueObjects;
 using SessionReservation.Domain.Equipments;
 using SessionReservation.Domain.ParticipantAggregate;
 using SessionReservation.Domain.SessionAggregate.Events;
@@ -11,14 +12,13 @@ public class Session : AggregateRoot
 {
     private List<Reservation> _reservations = [];
 
-    public Guid TrainerId { get; }
-    public Guid RoomId { get; }
+    public List<Equipment> Equipments = [];
+    public Guid TrainerId { get; private set; }
+    public Guid RoomId { get; private set; }
     public int MinimumAge { get; }
-    public SessionTypes Type { get; private set; }
+    public SessionTypes Type { get; }
     public DateOnly Date { get; }
     public TimeRange TimeRange { get; }
-    public List<Equipment> Equipments { get; }
-    
     public int Capacity { get; }
 
     public Session(Guid trainerId,
@@ -67,7 +67,7 @@ public class Session : AggregateRoot
         if (reservation is null)
             return SessionErrors.ReservationNotFound;
         
-        // Consider Paying pack
+        // Consider Paying pack TODO: Remember this
             
         _reservations.Remove(reservation);
         

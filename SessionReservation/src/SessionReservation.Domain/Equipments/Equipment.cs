@@ -1,15 +1,16 @@
 ﻿using SessionReservation.Domain.Common;
+using SessionReservation.Domain.Common.ValueObjects;
 
 namespace SessionReservation.Domain.Equipments;
 
 public class Equipment: Entity
 {
-    private string _name;
+    public string Name { get; }
     public Schedule Schedule { get; }
 
     public Equipment(string name, Schedule? schedule = null, Guid? id = null) : base(id)
     {
-        _name = name;
+        Name = name;
         Schedule = schedule ?? new Schedule();
     }
 }

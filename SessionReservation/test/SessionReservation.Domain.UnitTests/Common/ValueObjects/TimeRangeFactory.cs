@@ -1,4 +1,5 @@
 ﻿using SessionReservation.Domain.Common;
+using SessionReservation.Domain.Common.ValueObjects;
 
 namespace SessionReservation.Domain.UnitTests.Common.ValueObjects;
 

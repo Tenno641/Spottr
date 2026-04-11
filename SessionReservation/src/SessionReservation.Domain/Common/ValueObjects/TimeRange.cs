@@ -1,4 +1,4 @@
-﻿namespace SessionReservation.Domain.Common;
+﻿namespace SessionReservation.Domain.Common.ValueObjects;
 
 public class TimeRange : ValueObject
 {
