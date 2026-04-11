@@ -18,8 +18,4 @@
       <ProjectReference Include="..\SessionReservation.Application\SessionReservation.Application.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Persistence\Configurations\" />
-    </ItemGroup>
-
 </Project>

@@ -1,4 +1,5 @@
 ﻿using SessionReservation.Domain.Common;
+using SessionReservation.Domain.Common.ValueObjects;
 using SessionReservation.Domain.Equipments;
 using SessionReservation.Domain.SessionAggregate;
 

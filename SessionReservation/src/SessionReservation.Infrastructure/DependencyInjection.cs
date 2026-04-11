@@ -14,6 +14,7 @@ public static class DependencyInjection
     {
         services
             .AddPersistence()
+            .AddMasstransitConfiguration()
             .AddRepositories();
 
         return services;

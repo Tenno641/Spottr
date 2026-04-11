@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
 using MediatR;
 using SessionReservation.Domain.Common;
+using SessionReservation.Domain.Common.ValueObjects;
 using SessionReservation.Domain.SessionAggregate;
 
 namespace SessionReservation.Application.Sessions.Commands.CreateSession;

@@ -1,21 +1,22 @@
 ﻿using ErrorOr;
 using SessionReservation.Domain.Common;
+using SessionReservation.Domain.Common.ValueObjects;
 using SessionReservation.Domain.SessionAggregate;
 
 namespace SessionReservation.Domain.ParticipantAggregate;
 
 public class Participant : AggregateRoot
 {
-    private string _name;
     private List<Guid> _sessionIds = [];
     private readonly Schedule _schedule;
     
-    public int Age { get; }
+    public string Name { get; private set; }
+    public int Age { get; private set; }
     public IReadOnlyList<Guid> SessionIds => _sessionIds;
 
     public Participant(string name, int age, Schedule? schedule = null, Guid? id = null) : base(id)
     {
-        _name = name;
+        Name = name;
         _schedule = schedule ?? new Schedule();
         Age = age;
     }

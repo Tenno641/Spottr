@@ -6,6 +6,7 @@ using SessionReservation.Domain.Common;
 using SessionReservation.Domain.SessionAggregate;
 using ErrorOr;
 using SessionReservation.Application.Sessions.Queries.GetSession;
+using SessionReservation.Domain.Common.ValueObjects;
 
 namespace SessionReservation.Api.Controller;
 
@@ -57,4 +58,6 @@ public class SessionsController : ApiController
             session => Ok(new SessionResponse(session.RoomId, session.TrainerId, session.Type.ToString(), session.MinimumAge)),
             Problem);
     }
+    
+    // TODO: Cancel Session Endpoint 
 }

@@ -1,5 +1,6 @@
 ﻿using ErrorOr;
 using SessionReservation.Domain.Common;
+using SessionReservation.Domain.Common.ValueObjects;
 using SessionReservation.Domain.Equipments;
 using SessionReservation.Domain.RoomAggregate.Events;
 using SessionReservation.Domain.SessionAggregate;
@@ -11,9 +12,8 @@ public class Room : AggregateRoot
     private List<Guid> _sessionIds = [];
     private Schedule _schedule = new Schedule();
     private int _maxDailySessions;
+    public int Capacity { get; }
 
-    private int _capacity;
-    
     public IReadOnlyList<Guid> SessionIds => _sessionIds;
     public Guid GymId { get; private set; }
     public string Name { get; private set; }
@@ -24,7 +24,7 @@ public class Room : AggregateRoot
         Guid gymId,
         Guid? id = null) : base(id)
     {
-        _capacity = capacity;
+        Capacity = capacity;
         _maxDailySessions = maxDailySessions;
         Name = name;
         GymId = gymId;
@@ -32,7 +32,7 @@ public class Room : AggregateRoot
 
     public ErrorOr<Created> ScheduleSession(Session session)
     {
-        if (_capacity < session.Capacity)
+        if (Capacity < session.Capacity)
             return RoomErrors.SessionCapacityIsLargerThanTheRoom;
 
         if (_sessionIds.Count >= _maxDailySessions)

@@ -1,24 +1,24 @@
 ﻿using ErrorOr;
 
-namespace SessionReservation.Domain.Common;
+namespace SessionReservation.Domain.Common.ValueObjects;
 
 public class Schedule: Entity
 {
-    private Dictionary<DateOnly, List<TimeRange>> _calendar;
+    public Dictionary<DateOnly, List<TimeRange>> Calendar { get; }
 
     public Schedule(Dictionary<DateOnly, List<TimeRange>>? calendar = null,
         Guid? id = null) : base(id)
     {
-        _calendar = calendar ?? [];
+        Calendar = calendar ?? [];
     }
 
 
     public void BookTimeSlot(DateOnly date, TimeRange timeRange)
     {
-        if (!_calendar.TryGetValue(date, out List<TimeRange>? timeSlots))
+        if (!Calendar.TryGetValue(date, out List<TimeRange>? timeSlots))
         {
             timeSlots = [];
-            _calendar[date] = timeSlots;
+            Calendar[date] = timeSlots;
         }
         
         timeSlots.Add(timeRange);
@@ -26,7 +26,7 @@ public class Schedule: Entity
 
     public ErrorOr<Deleted> RemoveBooking(DateOnly date, TimeRange timeRange)
     {
-        if (!_calendar.TryGetValue(date, out List<TimeRange>? timeSlots) || !timeSlots.Contains(timeRange))
+        if (!Calendar.TryGetValue(date, out List<TimeRange>? timeSlots) || !timeSlots.Contains(timeRange))
             return Error.NotFound();
 
         timeSlots.Remove(timeRange);
@@ -36,7 +36,7 @@ public class Schedule: Entity
 
     public bool IsTimeSlotOccupied(DateOnly date, TimeRange timeRange)
     {
-        if (!_calendar.TryGetValue(date, out List<TimeRange>? timeSlots))
+        if (!Calendar.TryGetValue(date, out List<TimeRange>? timeSlots))
             return false;
 
         return timeSlots.Any(slot => slot.OverlapsWith(timeRange));
