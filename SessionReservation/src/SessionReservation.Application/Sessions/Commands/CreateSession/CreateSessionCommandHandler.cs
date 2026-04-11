@@ -1,7 +1,7 @@
 ﻿using ErrorOr;
 using MediatR;
 using SessionReservation.Application.Common.Interfaces;
-using SessionReservation.Domain.Equipments;
+using SessionReservation.Domain.Common.Entities;
 using SessionReservation.Domain.RoomAggregate;
 using SessionReservation.Domain.SessionAggregate;
 
@@ -9,16 +9,16 @@ namespace SessionReservation.Application.Sessions.Commands.CreateSession;
 
 public class CreateSessionCommandHandler: IRequestHandler<CreateSessionCommand, ErrorOr<Guid>>
 {
-    private readonly IEquipmentsRepository _equipmentsRepository;
     private readonly IRoomRepository _roomRepository;
     private readonly ISessionsRepository _sessionsRepository;
+    private readonly IEquipmentsRepository _equipmentsRepository;
     
-    public CreateSessionCommandHandler(IEquipmentsRepository equipmentsRepository,
-        IRoomRepository roomRepository, ISessionsRepository sessionsRepository)
+    public CreateSessionCommandHandler(
+        IRoomRepository roomRepository, ISessionsRepository sessionsRepository, IEquipmentsRepository equipmentsRepository)
     {
-        _equipmentsRepository = equipmentsRepository;
         _roomRepository = roomRepository;
         _sessionsRepository = sessionsRepository;
+        _equipmentsRepository = equipmentsRepository;
     }
 
     public async Task<ErrorOr<Guid>> Handle(CreateSessionCommand request, CancellationToken cancellationToken)
@@ -27,7 +27,7 @@ public class CreateSessionCommandHandler: IRequestHandler<CreateSessionCommand, 
         if (room is null)
             return Error.NotFound("Room is not found");
 
-        List<Equipment> equipments = await _equipmentsRepository.GetEquipmentsById(request.EquipmentsIds);
+        List<Equipment> equipments = await _equipmentsRepository.GetEquipmentsByIds(room.GymId, request.EquipmentsIds);
         if (equipments.Count != request.EquipmentsIds.Count)
             return Error.NotFound("Required equipments are not found");
         

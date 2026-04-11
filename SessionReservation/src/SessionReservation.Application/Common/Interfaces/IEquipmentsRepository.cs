@@ -1,9 +1,8 @@
-﻿using SessionReservation.Domain.Equipments;
+﻿using SessionReservation.Domain.Common.Entities;
 
 namespace SessionReservation.Application.Common.Interfaces;
 
 public interface IEquipmentsRepository
 {
-    Task<List<Equipment>> GetEquipmentsById(List<Guid> ids);
-    Task<Equipment?> GetEquipmentById(Guid id);
+    Task<List<Equipment>> GetEquipmentsByIds(Guid gymId, List<Guid> ids);
 }

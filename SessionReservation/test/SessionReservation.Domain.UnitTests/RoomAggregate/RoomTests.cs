@@ -1,5 +1,5 @@
 ﻿using ErrorOr;
-using SessionReservation.Domain.Equipments;
+using SessionReservation.Domain.Common.Entities;
 using SessionReservation.Domain.RoomAggregate;
 using SessionReservation.Domain.SessionAggregate;
 using SessionReservation.Domain.UnitTests.Common.Equipments;

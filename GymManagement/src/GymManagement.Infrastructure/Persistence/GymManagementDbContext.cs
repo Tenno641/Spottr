@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using GymManagement.Domain.AdminAggregate;
 using GymManagement.Domain.Common;
+using GymManagement.Domain.Common.Entities;
 using GymManagement.Domain.GymAggregate;
 using GymManagement.Domain.SubscriptionAggregate;
 using MassTransit;
@@ -26,6 +27,7 @@ public class GymManagementDbContext: DbContext
     public DbSet<Gym> Gyms { get; set; }
     public DbSet<Subscription> Subscriptions { get; set; }
     public DbSet<Admin> Admins { get; set; }
+    public DbSet<Equipment> Equipments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

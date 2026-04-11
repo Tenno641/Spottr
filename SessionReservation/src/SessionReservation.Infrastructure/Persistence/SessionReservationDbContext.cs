@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using SessionReservation.Domain.Common;
-using SessionReservation.Domain.Equipments;
+using SessionReservation.Domain.Common.Entities;
+using SessionReservation.Domain.Gyms;
 using SessionReservation.Domain.ParticipantAggregate;
 using SessionReservation.Domain.RoomAggregate;
 using SessionReservation.Domain.SessionAggregate;
@@ -22,7 +23,7 @@ public class SessionReservationDbContext: DbContext
     public DbSet<Room> Rooms { get; set; }
     public DbSet<Session> Sessions { get; set; }
     public DbSet<Trainer> Trainers{ get; set; }
-    public DbSet<Equipment> Equipments{ get; set; }
+    public DbSet<Gym> Gyms { get; set; }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {

@@ -1,5 +1,6 @@
 ﻿using ErrorOr;
 using SessionReservation.Domain.Common;
+using SessionReservation.Domain.Common.Entities;
 using SessionReservation.Domain.Common.ValueObjects;
 using SessionReservation.Domain.SessionAggregate;
 

@@ -1,5 +1,6 @@
 ﻿using ErrorOr;
 using GymManagement.Application.Common.Interface;
+using GymManagement.Domain.Common.Entities;
 using GymManagement.Domain.GymAggregate;
 using GymManagement.Domain.SubscriptionAggregate;
 using MediatR;
@@ -21,9 +22,12 @@ public class CreateGymCommandHandler: IRequestHandler<CreateGymCommand, ErrorOr<
 
         if (subscription is null)
             return Error.NotFound();
+        
+        List<Equipment> equipments = request.Equipments.ConvertAll(equipmentName => new Equipment(equipmentName));
 
         Gym gym = new Gym(
             subscriptionId: request.SubscriptionId,
+            equipments: equipments,
             maxRooms: subscription.GetMaxRooms(),
             name: request.Name);
         

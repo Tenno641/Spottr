@@ -11,7 +11,7 @@ public class Subscription : AggregateRoot
     private int _maxGyms;
     private Guid _adminId;
     
-    public SubscriptionType SubscriptionType { get; private set; }
+    public SubscriptionType SubscriptionType { get; }
 
     public Subscription(
         Guid adminId,

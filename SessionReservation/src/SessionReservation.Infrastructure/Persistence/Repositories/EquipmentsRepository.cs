@@ -1,25 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SessionReservation.Application.Common.Interfaces;
-using SessionReservation.Domain.Equipments;
+using SessionReservation.Domain.Common.Entities;
 
 namespace SessionReservation.Infrastructure.Persistence.Repositories;
 
 public class EquipmentsRepository: IEquipmentsRepository
 {
-    private readonly SessionReservationDbContext _dbContext;
+    private readonly SessionReservationDbContext _context;
     
-    public EquipmentsRepository(SessionReservationDbContext dbContext)
+    public EquipmentsRepository(SessionReservationDbContext context)
     {
-        _dbContext = dbContext;
+        _context = context;
     }
     
-    public async Task<List<Equipment>> GetEquipmentsById(List<Guid> ids)
+    public async Task<List<Equipment>> GetEquipmentsByIds(Guid gymId, List<Guid> ids)
     {
-        return await _dbContext.Equipments.Where(equipment => ids.Contains(equipment.Id)).ToListAsync();
-    }
-    
-    public async Task<Equipment?> GetEquipmentById(Guid id)
-    {
-        return await _dbContext.Equipments.FirstOrDefaultAsync(equipment => equipment.Id == id);
+        return await _context.Gyms
+            .Where(gym => gym.Id == gymId)
+            .SelectMany(gym => gym.Equipments)
+            .ToListAsync();
     }
 }

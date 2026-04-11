@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
+using SessionReservation.Domain.Common.ValueObjects;
 
-namespace SessionReservation.Domain.Common.ValueObjects;
+namespace SessionReservation.Domain.Common.Entities;
 
 public class Schedule: Entity
 {

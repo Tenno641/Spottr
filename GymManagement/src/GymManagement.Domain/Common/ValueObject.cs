@@ -20,5 +20,5 @@ public abstract class ValueObject
 
     protected abstract IEnumerable<object> GetProperties();
     
-    private ValueObject() { }
+    protected ValueObject() { }
 }
