@@ -1,0 +1,5 @@
+@session-host = 
+@participantId = 
+@sessionId = 
+
+DELETE {{session-host}}/participants/{{participantId}}/sessions/{{sessionId}}/reservation

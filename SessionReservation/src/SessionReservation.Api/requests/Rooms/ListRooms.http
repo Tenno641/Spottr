@@ -1,0 +1,4 @@
+@session-host = 
+@gymId =
+
+GET {{session-host}}/gyms/{{gymId}}/rooms
