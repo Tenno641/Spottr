@@ -78,5 +78,3 @@ public class SessionConfiguration: IEntityTypeConfiguration<Session>
         });
     }
 }
-
-// TODO: Database operations occur in memory listing sessions by gym in session repository

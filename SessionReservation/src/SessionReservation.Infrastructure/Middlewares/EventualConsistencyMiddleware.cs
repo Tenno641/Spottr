@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Logging;
 using SessionReservation.Domain.Common;
 using SessionReservation.Infrastructure.Persistence;
 
@@ -9,10 +10,12 @@ namespace SessionReservation.Infrastructure.Middlewares;
 public class EventualConsistencyMiddleware
 {
     private readonly RequestDelegate _next;
+    private readonly ILogger<EventualConsistencyMiddleware> _logger;
 
-    public EventualConsistencyMiddleware(RequestDelegate next, IPublisher publisher)
+    public EventualConsistencyMiddleware(RequestDelegate next, ILogger<EventualConsistencyMiddleware> logger)
     {
         _next = next;
+        _logger = logger;
     }
     
     public async Task InvokeAsync(HttpContext context, IPublisher publisher, SessionReservationDbContext dbContext)
@@ -33,7 +36,7 @@ public class EventualConsistencyMiddleware
             }
             catch (Exception e)
             {
-                // TODO: Use Polly Library
+                _logger.LogError(e, "An exception occurred while processing a request");
             }
             finally
             {

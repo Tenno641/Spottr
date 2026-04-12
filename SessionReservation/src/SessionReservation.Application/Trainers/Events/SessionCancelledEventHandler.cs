@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using SessionReservation.Application.Common.EventualConsistency;
 using SessionReservation.Application.Common.Interfaces;
 using SessionReservation.Domain.RoomAggregate.Events;
 using SessionReservation.Domain.TrainerAggregate;
@@ -19,8 +20,7 @@ public class SessionCancelledEventHandler: INotificationHandler<SessionCancelled
         Trainer? trainer = await _trainerRepository.GetTrainerByIdAsync(notification.Session.TrainerId);
         
         if (trainer is null)
-            return;
-        // TODO: Eventual Consistency Exception
+            throw new EventualConsistencyException($"Trainer with id {notification.Session.TrainerId} is not exist");
 
         trainer.RemoveTrainer(notification.Session);
         
