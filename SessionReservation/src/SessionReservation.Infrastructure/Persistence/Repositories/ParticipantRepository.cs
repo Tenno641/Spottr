@@ -12,6 +12,13 @@ public class ParticipantRepository: IParticipantRepository
     {
         _dbContext = dbContext;
     }
+
+    public async Task AddParticipantAsync(Participant participant)
+    {
+        _dbContext.Participants.Add(participant);
+        
+        await _dbContext.SaveChangesAsync();
+    }
     
     public async Task<Participant?> GetByIdAsync(Guid participantId)
     {

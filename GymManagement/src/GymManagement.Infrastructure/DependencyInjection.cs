@@ -1,9 +1,11 @@
 ﻿using GymManagement.Application.Common.Interface;
+using GymManagement.Infrastructure.IntegrationEvents;
 using GymManagement.Infrastructure.Persistence;
 using GymManagement.Infrastructure.Persistence.Repositories;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.UserManagement;
 
 namespace GymManagement.Infrastructure;
 
@@ -40,6 +42,8 @@ public static class DependencyInjection
     {
         services.AddMassTransit(busConfig =>
         {
+            busConfig.AddConsumer<IntegrationEventsConsumer>();
+            
             busConfig.AddEntityFrameworkOutbox<GymManagementDbContext>(outboxConfig =>
             {
                 outboxConfig.DuplicateDetectionWindow = TimeSpan.FromMinutes(5);
@@ -51,7 +55,6 @@ public static class DependencyInjection
             
             busConfig.UsingRabbitMq((context, cfg) =>
             {
-                
                 cfg.ConfigureEndpoints(context);
             });
         });

@@ -6,4 +6,5 @@ public interface IAdminsRepository
 {
     Task<Admin?> GetByIdAsync(Guid id);
     Task UpdateAsync(Admin admin);
+    Task AddAsync(Admin admin);
 }

@@ -1,7 +1,6 @@
 ﻿using ErrorOr;
 using SessionReservation.Domain.Common;
 using SessionReservation.Domain.Common.Entities;
-using SessionReservation.Domain.Common.ValueObjects;
 using SessionReservation.Domain.SessionAggregate;
 
 namespace SessionReservation.Domain.TrainerAggregate;
@@ -10,16 +9,19 @@ public class Trainer : AggregateRoot
 {
     private List<Guid> _sessionIds = [];
     private Schedule _schedule;
-
-    public Guid GymId { get; }
+    
+    public Guid UserId { get; }
+    public string Name { get; }
     
     public Trainer(
-        Guid gymId, 
+        Guid userId,
+        string name,
         Schedule? schedule = null, 
         Guid? id = null) : base(id)
     {
-        GymId = gymId;
+        UserId = userId;
         _schedule = schedule ?? new Schedule();
+        Name = name;
     }
 
     public ErrorOr<Created> TeachSession(Session session)

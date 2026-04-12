@@ -8,6 +8,8 @@ public class AdminConfigurations: IEntityTypeConfiguration<Admin>
 {
     public void Configure(EntityTypeBuilder<Admin> builder)
     {
+        builder.Property(a => a.UserId);
+        
         builder
             .Property("_subscriptionId")
             .HasColumnName("SubscriptionId")

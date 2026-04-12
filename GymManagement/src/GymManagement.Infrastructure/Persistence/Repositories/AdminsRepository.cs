@@ -24,4 +24,11 @@ public class AdminsRepository: IAdminsRepository
         
         return _dbContext.SaveChangesAsync();
     }
+    
+    public async Task AddAsync(Admin admin)
+    {
+        _dbContext.Admins.Add(admin);
+        
+        await _dbContext.SaveChangesAsync();
+    }
 }

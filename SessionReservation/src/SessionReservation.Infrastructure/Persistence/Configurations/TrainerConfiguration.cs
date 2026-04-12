@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SessionReservation.Domain.Common.Entities;
-using SessionReservation.Domain.Common.ValueObjects;
 using SessionReservation.Domain.TrainerAggregate;
 using SessionReservation.Infrastructure.Persistence.Converters;
 
@@ -12,12 +11,13 @@ public class TrainerConfiguration: IEntityTypeConfiguration<Trainer>
 {
     public void Configure(EntityTypeBuilder<Trainer> builder)
     {
-        builder.HasKey(p => p.Id);
+        builder.HasKey(t => t.Id);
 
-        builder.Property(p => p.GymId);
+        builder.Property(t => t.UserId);
+        builder.Property(t => t.Name);
 
         builder
-            .Property(p => p.Id)
+            .Property(t => t.Id)
             .HasColumnType("uuid")
             .ValueGeneratedNever();
         

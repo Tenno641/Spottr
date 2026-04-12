@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
 using UserManagement.Domain.Common;
 using UserManagement.Domain.Common.Interfaces;
+using UserManagement.Domain.UserAggregate.Events;
 
 namespace UserManagement.Domain.UserAggregate;
 
@@ -8,6 +9,7 @@ public class User: AggregateRoot
 {
     public string Name { get; }
     public string Email { get; }
+    public int Age { get; }
     
     public Guid? AdminId { get; private set; }
     public Guid? ParticipantId { get; private set; }
@@ -15,11 +17,23 @@ public class User: AggregateRoot
     
     private string _hashedPassword;
 
-    public User(string name, string email, string hashedPassword, Guid? id = null) : base(id)
+    public User(
+        string name, 
+        string email, 
+        string hashedPassword, 
+        int age,
+        Guid? adminId = null,
+        Guid? participantId = null,
+        Guid? trainerId = null,
+        Guid? id = null) : base(id)
     {
         Email = email;
         _hashedPassword = hashedPassword;
         Name = name;
+        Age = age;
+        AdminId = adminId;
+        ParticipantId = participantId;
+        TrainerId = trainerId;
     }
 
     public bool VerifyPassword(string password, IPasswordHasherService passwordHasherService)
@@ -34,7 +48,7 @@ public class User: AggregateRoot
 
         AdminId = Guid.CreateVersion7();
         
-        // Todo: AdminProfileCreatedEvent
+        _domainEvents.Add(new AdminProfileCreatedEvent(Id, AdminId.Value));
 
         return AdminId.Value;
     }
@@ -46,7 +60,7 @@ public class User: AggregateRoot
 
         ParticipantId = Guid.CreateVersion7();
         
-        // Todo: ParticipantProfileCreatedEvent
+        _domainEvents.Add(new ParticipantProfileCreatedEvent(Id, ParticipantId.Value, Name, Age));
 
         return ParticipantId.Value;
     }
@@ -58,7 +72,7 @@ public class User: AggregateRoot
 
         TrainerId = Guid.CreateVersion7();
         
-        // Todo: TrainerProfileCreatedEvent
+        _domainEvents.Add(new TrainerProfileCreatedEvent(Id, TrainerId.Value, Name));
 
         return TrainerId.Value;
     }
