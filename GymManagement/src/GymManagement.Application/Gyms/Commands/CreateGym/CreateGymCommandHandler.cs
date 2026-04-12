@@ -10,10 +10,12 @@ namespace GymManagement.Application.Gyms.Commands.CreateGym;
 public class CreateGymCommandHandler: IRequestHandler<CreateGymCommand, ErrorOr<Guid>>
 {
     private readonly ISubscriptionsRepository _subscriptionsRepository;
+    private readonly IEquipmentRepository _equipmentRepository;
     
-    public CreateGymCommandHandler(ISubscriptionsRepository subscriptionsRepository)
+    public CreateGymCommandHandler(ISubscriptionsRepository subscriptionsRepository, IEquipmentRepository equipmentRepository)
     {
         _subscriptionsRepository = subscriptionsRepository;
+        _equipmentRepository = equipmentRepository;
     }
     
     public async Task<ErrorOr<Guid>> Handle(CreateGymCommand request, CancellationToken cancellationToken)
@@ -24,6 +26,8 @@ public class CreateGymCommandHandler: IRequestHandler<CreateGymCommand, ErrorOr<
             return Error.NotFound();
         
         List<Equipment> equipments = request.Equipments.ConvertAll(equipmentName => new Equipment(equipmentName));
+        
+        await _equipmentRepository.AddEquipmentsAsync(equipments);
 
         Gym gym = new Gym(
             subscriptionId: request.SubscriptionId,

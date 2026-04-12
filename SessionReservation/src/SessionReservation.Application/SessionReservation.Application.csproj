@@ -13,7 +13,6 @@
 
     <ItemGroup>
       <Folder Include="Participants\Commands\" />
-      <Folder Include="Trainers\" />
     </ItemGroup>
 
     <ItemGroup>

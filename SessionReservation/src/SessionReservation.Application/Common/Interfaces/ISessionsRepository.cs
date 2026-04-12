@@ -9,4 +9,5 @@ public interface ISessionsRepository
     Task<Session?> GetSessionByIdAsync(Guid sessionId);
     Task UpdateSessionAsync(Session session);
     Task<List<Session>> ListByGymIdAsync(Guid gymId, DateTime? startDateTime = null, DateTime? endDateTime = null, List<SessionTypes>? types = null);
+    Task DeleteSessionAsync(Session session);
 }

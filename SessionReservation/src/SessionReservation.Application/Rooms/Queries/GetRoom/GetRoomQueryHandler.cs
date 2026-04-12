@@ -7,16 +7,16 @@ namespace SessionReservation.Application.Rooms.Queries.GetRoom;
 
 public class GetRoomQueryHandler: IRequestHandler<GetRoomQuery, ErrorOr<Room>>
 {
-    private readonly IRoomRepository _roomRepository;
+    private readonly IRoomsRepository _roomsRepository;
     
-    public GetRoomQueryHandler(IRoomRepository roomRepository)
+    public GetRoomQueryHandler(IRoomsRepository roomsRepository)
     {
-        _roomRepository = roomRepository;
+        _roomsRepository = roomsRepository;
     }
     
     public async Task<ErrorOr<Room>> Handle(GetRoomQuery request, CancellationToken cancellationToken)
     {
-        Room? room = await _roomRepository.GetRoomByIdAsync(request.RoomId);
+        Room? room = await _roomsRepository.GetRoomByIdAsync(request.RoomId);
 
         if (room is null)
             return Error.NotFound(description: "Room is not found");

@@ -53,6 +53,13 @@ public class SessionsRepository: ISessionsRepository
         
         return await ListBySessionsIdsAsync(sessionIds, startDateTime, endDateTime, types);
     }
+    
+    public async Task DeleteSessionAsync(Session session)
+    {
+        _dbContext.Sessions.Remove(session);
+        
+        await _dbContext.SaveChangesAsync();
+    }
 }
 
 static class SessionDbSetExtensions

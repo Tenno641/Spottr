@@ -13,11 +13,17 @@ public class EquipmentsRepository: IEquipmentsRepository
         _context = context;
     }
     
-    public async Task<List<Equipment>> GetEquipmentsByIds(Guid gymId, List<Guid> ids)
+    public async Task<List<Equipment>> GetEquipmentsByIds(List<Guid> ids)
     {
-        return await _context.Gyms
-            .Where(gym => gym.Id == gymId)
-            .SelectMany(gym => gym.Equipments)
+        return await _context.Equipments
+            .Where(e => ids.Contains(e.Id))
             .ToListAsync();
+    }
+    
+    public async Task UpdateEquipmentsAsync(List<Equipment> equipments)
+    {
+        _context.Equipments.UpdateRange(equipments);
+        
+        await _context.SaveChangesAsync();
     }
 }
