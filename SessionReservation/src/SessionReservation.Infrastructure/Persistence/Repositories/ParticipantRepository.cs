@@ -27,4 +27,16 @@ public class ParticipantRepository: IParticipantRepository
         _dbContext.Update(participant);
         return Task.CompletedTask;
     }
+    
+    public async Task<List<Participant>> GetParticipantsBySessionAsync(Guid sessionId)
+    {
+        return await _dbContext.Participants.Where(p => p.SessionIds.Contains(sessionId)).ToListAsync();
+    }
+    
+    public async Task UpdateParticipantsAsync(List<Participant> participants)
+    {
+        _dbContext.Participants.UpdateRange(participants);
+        
+        await _dbContext.SaveChangesAsync();
+    }
 }

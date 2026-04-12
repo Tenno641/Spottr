@@ -7,19 +7,19 @@ namespace SessionReservation.Application.Rooms.IntegrationEvents;
 
 public class RoomDeletedIntegrationEventHandler: INotificationHandler<RoomDeletedIntegrationEvent>
 {
-    private readonly IRoomRepository _roomRepository;
+    private readonly IRoomsRepository _roomsRepository;
     
-    public RoomDeletedIntegrationEventHandler(IRoomRepository roomRepository)
+    public RoomDeletedIntegrationEventHandler(IRoomsRepository roomsRepository)
     {
-        _roomRepository = roomRepository;
+        _roomsRepository = roomsRepository;
     }
 
     public async Task Handle(RoomDeletedIntegrationEvent notification, CancellationToken cancellationToken)
     {
-        Room? room = await _roomRepository.GetRoomByIdAsync(notification.RoomId);
+        Room? room = await _roomsRepository.GetRoomByIdAsync(notification.RoomId);
         if (room is null)
             return;
         
-        await _roomRepository.DeleteRoomByIdAsync(room);
+        await _roomsRepository.DeleteRoomByIdAsync(room);
     }
 }

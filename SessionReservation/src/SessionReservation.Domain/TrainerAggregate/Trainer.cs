@@ -48,6 +48,7 @@ public class Trainer : AggregateRoot
             return removeFromScheduleResult.Errors;
         
         _sessionIds.Remove(session.Id);
+        
         return Result.Deleted;
     }
 

@@ -15,4 +15,7 @@ public static class RoomErrors
 
     public static Error EquipmentsWillNotBeAvailableForThisSession =>
         Error.Conflict(code: "Room.ScheduleSession", description: "Required equipments will not be available for that session");
+    
+    public static Error SessionIsNotFound =>
+        Error.Conflict(code: "Room.CancelSession", description: "Session is not found");
 }

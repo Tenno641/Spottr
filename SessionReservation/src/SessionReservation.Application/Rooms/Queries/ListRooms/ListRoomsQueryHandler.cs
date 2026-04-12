@@ -7,15 +7,15 @@ namespace SessionReservation.Application.Rooms.Queries.ListRooms;
 
 public class ListRoomsQueryHandler: IRequestHandler<ListRoomsQuery, ErrorOr<List<Room>>>
 {
-    private readonly IRoomRepository _roomRepository;
+    private readonly IRoomsRepository _roomsRepository;
     
-    public ListRoomsQueryHandler(IRoomRepository roomRepository)
+    public ListRoomsQueryHandler(IRoomsRepository roomsRepository)
     {
-        _roomRepository = roomRepository;
+        _roomsRepository = roomsRepository;
     }
     
     public async Task<ErrorOr<List<Room>>> Handle(ListRoomsQuery request, CancellationToken cancellationToken)
     {
-        return await _roomRepository.ListRoomsByGymIdAsync(request.GymId);
+        return await _roomsRepository.ListRoomsByGymIdAsync(request.GymId);
     }
 }

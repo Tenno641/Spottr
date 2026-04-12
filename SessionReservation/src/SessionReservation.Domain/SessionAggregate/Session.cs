@@ -76,10 +76,8 @@ public class Session : AggregateRoot
         return Result.Deleted;
     }
 
-    public void Cancel()
-    {
-        _domainEvents.Add(new SessionCancelledEvent()); // TODO: Remember this - Cancel Reservation, Free Participants Schedule 
-    }
+    // TODO: When Session gets deleted, listen to the event raised from room aggregate and implements those:
+        // Free Equipments Schedule
 
     private bool IsCancellationTimeClose(IDateTimeProvider dateTimeProvider)
     {

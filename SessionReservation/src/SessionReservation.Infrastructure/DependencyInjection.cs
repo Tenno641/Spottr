@@ -22,10 +22,11 @@ public static class DependencyInjection
 
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
+        services.AddScoped<ITrainerRepository, TrainerRepository>();
         services.AddScoped<IEquipmentsRepository, EquipmentsRepository>();
         services.AddScoped<IParticipantRepository, ParticipantRepository>();
         services.AddScoped<ISessionsRepository, SessionsRepository>();
-        services.AddScoped<IRoomRepository, RoomsRepository>();
+        services.AddScoped<IRoomsRepository, RoomsesRepository>();
 
         return services;
     }

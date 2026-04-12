@@ -8,11 +8,11 @@ namespace SessionReservation.Application.Rooms.IntegrationEvents;
 public class RoomAddedIntegrationEventHandler 
     : INotificationHandler<RoomAddedIntegrationEvent>
 {
-    private readonly IRoomRepository _roomRepository;
+    private readonly IRoomsRepository _roomsRepository;
     
-    public RoomAddedIntegrationEventHandler(IRoomRepository roomRepository)
+    public RoomAddedIntegrationEventHandler(IRoomsRepository roomsRepository)
     {
-        _roomRepository = roomRepository;
+        _roomsRepository = roomsRepository;
     }
     
     public async Task Handle(RoomAddedIntegrationEvent notification, CancellationToken cancellationToken)
@@ -24,6 +24,6 @@ public class RoomAddedIntegrationEventHandler
             gymId: notification.GymId,
             id: notification.RoomId);
 
-        await _roomRepository.AddRoomAsync(room);
+        await _roomsRepository.AddRoomAsync(room);
     }
 }

@@ -20,6 +20,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddPersistence(this IServiceCollection services)
     {
+        services.AddScoped<IEquipmentRepository, EquipmentsRepository>();
         services.AddScoped<IGymsRepository, GymsRepository>();
         services.AddScoped<ISubscriptionsRepository, SubscriptionsRepository>();
         services.AddScoped<IAdminsRepository, AdminsRepository>();

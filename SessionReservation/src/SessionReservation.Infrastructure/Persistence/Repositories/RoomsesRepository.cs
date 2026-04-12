@@ -4,11 +4,11 @@ using SessionReservation.Domain.RoomAggregate;
 
 namespace SessionReservation.Infrastructure.Persistence.Repositories;
 
-public class RoomsRepository: IRoomRepository
+public class RoomsesRepository: IRoomsRepository
 {
     private readonly SessionReservationDbContext _dbContext;
     
-    public RoomsRepository(SessionReservationDbContext dbContext)
+    public RoomsesRepository(SessionReservationDbContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -34,5 +34,12 @@ public class RoomsRepository: IRoomRepository
     public async Task<List<Room>> ListRoomsByGymIdAsync(Guid gymId)
     {
         return await _dbContext.Rooms.Where(room => room.GymId == gymId).ToListAsync();
+    }
+    
+    public async Task UpdateRoomAsync(Room room)
+    {
+        _dbContext.Rooms.Update(room);
+        
+        await _dbContext.SaveChangesAsync();
     }
 }

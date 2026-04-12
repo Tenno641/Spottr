@@ -57,6 +57,20 @@ public class Room : AggregateRoot
         
         return Result.Created;
     }
+
+    public ErrorOr<Success> CancelSession(Session session)
+    {
+        if (!_sessionIds.Contains(session.Id))
+            return RoomErrors.SessionIsNotFound;
+        
+        _sessionIds.Remove(session.Id);
+        
+        _schedule.RemoveBooking(session.Date, session.TimeRange);
+        
+        _domainEvents.Add(new SessionCancelledEvent(session));
+        
+        return  Result.Success;
+    }
     
     private Room() { }
 }

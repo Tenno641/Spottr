@@ -47,22 +47,22 @@ public class GymManagementDbContext: DbContext
             .SelectMany(x => x)
             .ToList();
 
-        if (IsRequestStillBeingProcessed())
+        if (IsRequestStillBeingProcessed)
         {
             AddDomainEventsToBeProcessed(domainEvents);
             return await base.SaveChangesAsync(cancellationToken);
         }
         
-        PublishEvents(domainEvents);
+        await PublishEvents(domainEvents);
         return await base.SaveChangesAsync(cancellationToken);
     }
 
-    private bool IsRequestStillBeingProcessed() => _contextAccessor.HttpContext is not null;
+    private bool IsRequestStillBeingProcessed => _contextAccessor.HttpContext is not null;
 
-    private void PublishEvents(List<IDomainEvent> events)
+    private async Task PublishEvents(List<IDomainEvent> events)
     {
         foreach (IDomainEvent @event in events)
-            _publisher.Publish(@event);
+            await _publisher.Publish(@event);
     }
 
     private void AddDomainEventsToBeProcessed(List<IDomainEvent> events)
@@ -73,6 +73,7 @@ public class GymManagementDbContext: DbContext
             : new Queue<IDomainEvent>();
         
         events.ForEach(domainEventsQueue.Enqueue);
+        
         _contextAccessor.HttpContext.Items["DomainEvents"] = domainEventsQueue;
     }
 }

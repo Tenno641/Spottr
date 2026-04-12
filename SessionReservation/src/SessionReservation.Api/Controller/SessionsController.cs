@@ -2,9 +2,9 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SessionReservation.Application.Sessions.Commands.CreateSession;
 using SessionReservation.Contracts.Sessions;
-using SessionReservation.Domain.Common;
 using SessionReservation.Domain.SessionAggregate;
 using ErrorOr;
+using SessionReservation.Application.Sessions.Commands.CancelSession;
 using SessionReservation.Application.Sessions.Queries.GetSession;
 using SessionReservation.Domain.Common.ValueObjects;
 
@@ -60,4 +60,15 @@ public class SessionsController : ApiController
     }
     
     // TODO: Cancel Session Endpoint 
+    [HttpDelete("{sessionId:guid}")]
+    public async Task<IActionResult> CancelSession(Guid roomId, Guid sessionId)
+    {
+        CancelSessionCommand command = new CancelSessionCommand(roomId, sessionId);
+
+        ErrorOr<Success> cancelSessionResult = await _sender.Send(command);
+
+        return cancelSessionResult.Match(
+            _ => Ok(),
+            Problem);
+    }
 }
