@@ -1,9 +1,7 @@
 ﻿using MassTransit.EntityFrameworkCoreIntegration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SessionReservation.Domain.Common;
 using SessionReservation.Domain.Common.Entities;
-using SessionReservation.Domain.Common.ValueObjects;
 using SessionReservation.Domain.ParticipantAggregate;
 using SessionReservation.Infrastructure.Persistence.Converters;
 
@@ -19,6 +17,8 @@ public class ParticipantConfiguration: IEntityTypeConfiguration<Participant>
             .Property(p => p.Id)
             .HasColumnType("uuid")
             .ValueGeneratedNever();
+
+        builder.Property(p => p.UserId);
 
         builder.OwnsOne<Schedule>("_schedule", scheduleBuilder =>
         {

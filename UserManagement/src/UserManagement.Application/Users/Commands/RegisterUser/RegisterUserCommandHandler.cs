@@ -22,11 +22,11 @@ public class RegisterUserCommandHandler: IRequestHandler<RegisterUserCommand, Er
     {
         string hashedPassword = _passwordHasher.HashPassword(request.Password);
 
-        User user = new User(request.Name, request.Email, hashedPassword);
+        User user = new User(request.Name, request.Email, hashedPassword, request.Age);
 
         await _userRepository.CreateAsync(user);
 
-        AuthenticationResponse response = new AuthenticationResponse(Id: user.Id, "");
+        AuthenticationResponse response = new AuthenticationResponse(Id: user.Id, ""); // TODO: EMPTY TOKEN!!!!!!!?
 
         return response;
     }

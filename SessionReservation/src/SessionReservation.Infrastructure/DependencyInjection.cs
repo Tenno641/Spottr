@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SessionReservation.Application.Common.Interfaces;
+using SessionReservation.Infrastructure.IntegrationEvents;
 using SessionReservation.Infrastructure.Persistence;
 using SessionReservation.Infrastructure.Persistence.Repositories;
 
@@ -45,6 +46,8 @@ public static class DependencyInjection
     {
         services.AddMassTransit(busConfig =>
         {
+            busConfig.AddConsumer<IntegrationEventsConsumer>();
+            
             busConfig.AddEntityFrameworkOutbox<SessionReservationDbContext>(outboxConfig =>
             {
                 outboxConfig.DuplicateDetectionWindow = TimeSpan.FromMinutes(5);

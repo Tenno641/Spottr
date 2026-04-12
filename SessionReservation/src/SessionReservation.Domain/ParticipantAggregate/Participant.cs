@@ -12,12 +12,14 @@ public class Participant : AggregateRoot
     public List<Guid> SessionIds { get; }
     public string Name { get; private set; }
     public int Age { get; private set; }
+    public Guid UserId { get; }
 
-    public Participant(string name, int age, Schedule? schedule = null, Guid? id = null) : base(id)
+    public Participant(string name, int age, Guid userId, Schedule? schedule = null, Guid? id = null) : base(id)
     {
         Name = name;
         _schedule = schedule ?? new Schedule();
         Age = age;
+        UserId = userId;
         SessionIds = [];
     }
 

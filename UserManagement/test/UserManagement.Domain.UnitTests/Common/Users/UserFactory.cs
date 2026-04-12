@@ -6,6 +6,7 @@ public static class UserFactory
 {
     public static User CreateUser(
         Guid? id = null,
+        int? age = null,
         string? name = null,
         string? email = null,
         string? hashedPassword = null)
@@ -13,6 +14,7 @@ public static class UserFactory
         User user = new User(
             id: id ?? Constants.Constants.User.Id,
             name: name ?? Constants.Constants.User.Name,
+            age: age ?? Constants.Constants.User.Age,
             email: email ?? Constants.Constants.User.Email,
             hashedPassword: hashedPassword ?? Constants.Constants.User.HashedPassword);
 

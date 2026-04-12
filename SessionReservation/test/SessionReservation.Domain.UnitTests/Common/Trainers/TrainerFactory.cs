@@ -4,11 +4,15 @@ namespace SessionReservation.Domain.UnitTests.Common.Trainers;
 
 public static class TrainerFactory
 {
-    public static Trainer Create()
+    public static Trainer Create(
+        Guid? userId = null,
+        string? name = null,
+        Guid? id = null)
     {
         Trainer trainer = new Trainer(
-            id: Constants.Constants.Trainers.Id,
-            gymId: Constants.Constants.Trainers.GymId);
+            id: id ?? Constants.Constants.Trainers.Id,
+            name: name ?? Constants.Constants.Trainers.Name,
+            userId : userId ?? Constants.Constants.Trainers.UserId);
 
         return trainer;
     }

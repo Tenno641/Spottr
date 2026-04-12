@@ -8,9 +8,12 @@ namespace GymManagement.Domain.AdminAggregate;
 public class Admin : AggregateRoot
 {
     private Guid? _subscriptionId;
+    
+    public Guid UserId { get; }
 
-    public Admin(Guid? id = null) : base(id)
+    public Admin(Guid userId, Guid? id = null) : base(id)
     {
+        UserId = userId;
     }
 
     public ErrorOr<Success> SetSubscription(Subscription subscription)

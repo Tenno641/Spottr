@@ -13,6 +13,13 @@ public class TrainerRepository: ITrainerRepository
         _dbContext = dbContext;
     }
 
+    public async Task AddTrainerAsync(Trainer trainer)
+    {
+        _dbContext.Trainers.Add(trainer);
+        
+        await _dbContext.SaveChangesAsync();
+    }
+    
     public async Task<Trainer?> GetTrainerByIdAsync(Guid trainerId)
     {
         return await _dbContext.Trainers.FirstOrDefaultAsync(s => s.Id == trainerId);

@@ -4,6 +4,7 @@ namespace SessionReservation.Application.Common.Interfaces;
 
 public interface IParticipantRepository
 {
+    Task AddParticipantAsync(Participant participant);
     Task<Participant?> GetByIdAsync(Guid participantId);
     Task UpdateParticipantAsync(Participant participant);
     Task<List<Participant>> GetParticipantsBySessionAsync(Guid sessionId);
