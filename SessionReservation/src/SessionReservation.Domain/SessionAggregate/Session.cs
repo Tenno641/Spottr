@@ -76,9 +76,6 @@ public class Session : AggregateRoot
         return Result.Deleted;
     }
 
-    // TODO: When Session gets deleted, listen to the event raised from room aggregate and implements those:
-        // Free Equipments Schedule
-
     private bool IsCancellationTimeClose(IDateTimeProvider dateTimeProvider)
     {
         return (Date.ToDateTime(TimeRange.Start) - dateTimeProvider.UtcNow).TotalHours < 24;

@@ -59,7 +59,6 @@ public class SessionsController : ApiController
             Problem);
     }
     
-    // TODO: Cancel Session Endpoint 
     [HttpDelete("{sessionId:guid}")]
     public async Task<IActionResult> CancelSession(Guid roomId, Guid sessionId)
     {

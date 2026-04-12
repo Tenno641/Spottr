@@ -1,5 +1,6 @@
 ﻿using ErrorOr;
 using MediatR;
+using SessionReservation.Application.Common.EventualConsistency;
 using SessionReservation.Application.Common.Interfaces;
 using SessionReservation.Domain.ParticipantAggregate;
 using SessionReservation.Domain.RoomAggregate.Events;
@@ -22,10 +23,9 @@ public class SessionCancelledEventHandler: INotificationHandler<SessionCancelled
         foreach (Participant participant in participants)
         {
             ErrorOr<Success> result = participant.CancelSession(notification.Session);
-            
+
             if (result.IsError)
-                return;
-            // TODO: Eventual Consisitency Exception
+                throw new EventualConsistencyException($"Failed to cancel session for participant {participant.Id}");
         }
         
         await _participantRepository.UpdateParticipantsAsync(participants);

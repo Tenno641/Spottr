@@ -1,5 +1,6 @@
 ﻿using ErrorOr;
 using MediatR;
+using SessionReservation.Application.Common.EventualConsistency;
 using SessionReservation.Application.Common.Interfaces;
 using SessionReservation.Domain.Common.Entities;
 using SessionReservation.Domain.RoomAggregate.Events;
@@ -26,8 +27,7 @@ public class SessionCancelledEventHandler: INotificationHandler<SessionCancelled
             ErrorOr<Success> result = equipment.RemoveFromSchedule(notification.Session);
             
             if (result.IsError)
-                return;
-            // TODO: Eventual Consistency Exception
+                throw new EventualConsistencyException($"Failed to clear equipment {equipment.Id} schedule");
         }
 
         await _equipmentsRepository.UpdateEquipmentsAsync(equipments);

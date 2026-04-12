@@ -3,6 +3,7 @@ using GymManagement.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Logging;
 
 namespace GymManagement.Infrastructure.Middlewares;
 
@@ -11,10 +12,12 @@ public class EventualConsistencyMiddleware
     public const string DomainEventsKey = "DomainEvents";
 
     private readonly RequestDelegate _next;
+    private readonly ILogger<EventualConsistencyMiddleware> _logger;
     
-    public EventualConsistencyMiddleware(RequestDelegate next)
+    public EventualConsistencyMiddleware(RequestDelegate next, ILogger<EventualConsistencyMiddleware> logger)
     {
         _next = next;
+        _logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext context, IPublisher publisher, GymManagementDbContext dbContext)
@@ -34,8 +37,7 @@ public class EventualConsistencyMiddleware
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                _logger.LogError(e, "An exception occurred while processing a request");
             }
             finally
             {
