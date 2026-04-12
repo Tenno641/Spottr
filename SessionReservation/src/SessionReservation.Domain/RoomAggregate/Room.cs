@@ -69,7 +69,7 @@ public class Room : AggregateRoot
         
         _domainEvents.Add(new SessionCancelledEvent(session));
         
-        return  Result.Success;
+        return Result.Success;
     }
     
     private Room() { }
