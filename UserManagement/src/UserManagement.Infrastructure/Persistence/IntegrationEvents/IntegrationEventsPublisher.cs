@@ -7,7 +7,8 @@ namespace UserManagement.Infrastructure.Persistence.IntegrationEvents;
 
 public class IntegrationEventsPublisher:
     INotificationHandler<ParticipantProfileCreatedEvent>,
-    INotificationHandler<TrainerProfileCreatedEvent>
+    INotificationHandler<TrainerProfileCreatedEvent>,
+    INotificationHandler<AdminProfileCreatedEvent>
 {
     private readonly IPublishEndpoint _publishEndpoint;
     
@@ -26,6 +27,13 @@ public class IntegrationEventsPublisher:
     public async Task Handle(TrainerProfileCreatedEvent notification, CancellationToken cancellationToken)
     {
         TrainerProfileCreatedIntegrationEvent integrationEvent =  new TrainerProfileCreatedIntegrationEvent(notification.UserId, notification.TrainerId, notification.Name);
+        
+        await _publishEndpoint.Publish(integrationEvent, cancellationToken);
+    }
+    
+    public async Task Handle(AdminProfileCreatedEvent notification, CancellationToken cancellationToken)
+    {
+        AdminProfileCreatedIntegrationEvent integrationEvent = new AdminProfileCreatedIntegrationEvent(notification.UserId, notification.AdminId);
         
         await _publishEndpoint.Publish(integrationEvent, cancellationToken);
     }
