@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using UserManagement.Application.Common.Interfaces;
 using UserManagement.Domain.Common.Interfaces;
+using UserManagement.Infrastructure.Outbox;
 using UserManagement.Infrastructure.Persistence;
 using UserManagement.Infrastructure.Persistence.Repositories;
 using UserManagement.Infrastructure.Persistence.Services;
@@ -26,6 +27,8 @@ public static class DependencyInjection
         {
             options.UseSqlServer(Environment.GetEnvironmentVariable("DatabaseConnectionString"));
         });
+
+        services.AddHostedService<OutboxMessagesDispatcher>();
 
         return services;
     }
