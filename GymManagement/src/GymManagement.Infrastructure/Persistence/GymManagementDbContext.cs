@@ -1,9 +1,11 @@
 ﻿using System.Reflection;
+using System.Text.Json;
 using GymManagement.Domain.AdminAggregate;
 using GymManagement.Domain.Common;
 using GymManagement.Domain.Common.Entities;
 using GymManagement.Domain.GymAggregate;
 using GymManagement.Domain.SubscriptionAggregate;
+using GymManagement.Infrastructure.Outbox;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -28,6 +30,7 @@ public class GymManagementDbContext: DbContext
     public DbSet<Subscription> Subscriptions { get; set; }
     public DbSet<Admin> Admins { get; set; }
     public DbSet<Equipment> Equipments { get; set; }
+    public DbSet<OutboxMessage> OutboxMessages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -40,21 +43,29 @@ public class GymManagementDbContext: DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 
-    public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
         List<IDomainEvent> domainEvents = ChangeTracker.Entries<AggregateRoot>()
             .Select(entry => entry.Entity.PopDomainEvents())
             .SelectMany(x => x)
             .ToList();
 
-        if (IsRequestStillBeingProcessed)
+        List<OutboxMessage> outboxMessages = domainEvents.Select(@event =>
         {
-            AddDomainEventsToBeProcessed(domainEvents);
-            return await base.SaveChangesAsync(cancellationToken);
-        }
+            Type type = @event.GetType();
+            return new OutboxMessage(type.AssemblyQualifiedName, JsonSerializer.Serialize(@event, type));
+        }).ToList();
         
-        await PublishEvents(domainEvents);
-        return await base.SaveChangesAsync(cancellationToken);
+        OutboxMessages.AddRange(outboxMessages);
+
+        // if (IsRequestStillBeingProcessed)
+        // {
+        //     AddDomainEventsToBeProcessed(domainEvents);
+        //     return await base.SaveChangesAsync(cancellationToken);
+        // }
+        //
+        // await PublishEvents(domainEvents);
+        return base.SaveChangesAsync(cancellationToken);
     }
 
     private bool IsRequestStillBeingProcessed => _contextAccessor.HttpContext is not null;

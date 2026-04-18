@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SessionReservation.Application.Common.Interfaces;
 using SessionReservation.Infrastructure.IntegrationEvents;
+using SessionReservation.Infrastructure.Outbox;
 using SessionReservation.Infrastructure.Persistence;
 using SessionReservation.Infrastructure.Persistence.Repositories;
 
@@ -34,6 +35,8 @@ public static class DependencyInjection
 
     private static IServiceCollection AddPersistence(this IServiceCollection services)
     {
+        services.AddHostedService<OutboxMessagesDispatcher>();
+        
         services.AddDbContext<SessionReservationDbContext>(optios =>
         {
             optios.UseSqlServer(Environment.GetEnvironmentVariable("DatabaseConnectionString"));

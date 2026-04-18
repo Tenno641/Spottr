@@ -1,5 +1,6 @@
 ﻿using GymManagement.Application.Common.Interface;
 using GymManagement.Infrastructure.IntegrationEvents;
+using GymManagement.Infrastructure.Outbox;
 using GymManagement.Infrastructure.Persistence;
 using GymManagement.Infrastructure.Persistence.Repositories;
 using MassTransit;
@@ -34,6 +35,8 @@ public static class DependencyInjection
             // options.UseNpgsql(Environment.GetEnvironmentVariable("DatabaseConnectionString"));
             options.UseNpgsql("Server=localhost; Database=postgres; Username=postgres; Password=password; Port=5432");
         });
+
+        services.AddHostedService<OutboxMessagesDispatcher>();
         
         return services;
     }
